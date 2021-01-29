@@ -89,7 +89,6 @@ namespace PlayerLogic
             {
                 if (data.shootNow == false)
                 {
-                    Debug.Log("ShootStart!");
                     data.shootObject.transform.position = _startPositon;
                     data.moveVec = _moveVec;
                     data.moveSpeed = DefaultShootSpeed;

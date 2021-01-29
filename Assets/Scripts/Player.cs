@@ -52,14 +52,19 @@ namespace PlayerLogic
         private int jumpCount;
         // rush
         public bool InRush { get; private set; }
+
+        [SerializeField]
+        private RushHitCheck rushHitCheck;
         // attack
         private PlayerAttack bulletManager;
         // cling
-
+        [SerializeField]
+        private ClingHitCheck clingHitCheck;
         // key press event
         public bool MoveKeyPressed { get; internal set; }
         public bool JumpKeyPressed { get; internal set; }
         public bool ShootKeyPressed { get; internal set; }
+        public bool ClingKeyPressed { get; internal set; }
 
         private Rigidbody2D rb;
         private SpriteRenderer render;
@@ -80,18 +85,37 @@ namespace PlayerLogic
 
         private void Update()
         {
-            // shoot if key is continuously pressed
-            if (ShootKeyPressed) Shoot();
+            if (ClingKeyPressed)
+            {
+                if (clingHitCheck.ClingFlag)
+                {
 
-            // apply velocity, update position
-            if (MoveKeyPressed) Move();
-            else Speed = 0;
+                    rb.velocity = Vector2.zero;
+                    rb.isKinematic = true;
+                    jumpCount = 0;
+                }
+            }
+            else
+            {
+                if (rb.isKinematic)
+                {
+                    rb.isKinematic = false;
+                }
 
-            Vector3 pos = transform.position;
-            Vector3 vel = new Vector3(Speed * Facing, 0, 0);
-            pos += vel;
+                // shoot if key is continuously pressed
+                if (ShootKeyPressed) Shoot();
 
-            transform.position = pos;
+                // apply velocity, update position
+                if (MoveKeyPressed) Move();
+                else Speed = 0;
+
+                Vector3 pos = transform.position;
+                Vector3 vel = new Vector3(Speed * Facing, 0, 0);
+                pos += vel;
+
+                transform.position = pos;
+            }
+
         }
         #endregion
 
@@ -102,10 +126,27 @@ namespace PlayerLogic
         public void FaceTo(PlayerDirection dir)
         {
             Facing = dir.ToFacing();
-            render.flipX = Facing < 0;
+            //render.flipX = Facing < 0;
         }
-
-        public void Move()
+        public void PlayerAngleChangeLeft()
+        {
+            if(transform.localRotation.y != 180)
+            {
+                var ro = transform.localRotation;
+                ro.y = 180;
+                transform.localRotation = ro;
+            }
+        }
+        public void PlayerAngleChangeRight()
+        {
+            if (transform.localRotation.y != 0)
+            {
+                var ro = transform.localRotation;
+                ro.y = 0;
+                transform.localRotation = ro;
+            }
+        }
+    public void Move()
         {
             Speed = moveSpeed;
         }
@@ -113,21 +154,22 @@ namespace PlayerLogic
         public void Jump()
         {
             // basic jump
-            if (CanJump)
+            if (CanJump && jumpCount == 0)
             {
                 if (debug)
                     Debug.Log("Player jump.");
 
                 rb.AddForce(Vector2.up * jumpForce);
                 jumpCount++;
+                return;
             }
 
             // double jump
-            if (CanDoubleJump)
+            if (CanDoubleJump && jumpCount == 1)
             {
                 if (debug)
                     Debug.Log("Player double jump.");
-
+                rb.velocity = Vector3.zero;
                 rb.AddForce(Vector2.up * jumpForce);
                 jumpCount++;
             }
@@ -147,11 +189,22 @@ namespace PlayerLogic
         public void Rush()
         {
             // be careful with collision detection
+            foreach(var HitEnemyObject in rushHitCheck.GetRushAreainEnemyObjects())
+            {
+                var enemybasic = HitEnemyObject.GetComponent<EnemyBasic>();
+
+                if(enemybasic != null)
+                {
+                    //Enemy Damage?
+                    //enemybasic
+                }
+            }
         }
 
         public void Cling()
         {
             // attach to wall, cannot move, can jump
+            
         }
         #endregion
 

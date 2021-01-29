@@ -48,11 +48,16 @@ namespace PlayerLogic
                 if (debug) Debug.Log("player shoot key pressed.");
                 pl.ShootKeyPressed = true;
             }
-
+            if (Input.GetKeyDown(ClingKeyCode))
+            {
+                if (debug) Debug.Log("player → Cling key pressed.");
+                pl.ClingKeyPressed = true;
+            }
             if (Input.GetKeyDown(LeftMoveKeyCode))
             {
                 if (debug) Debug.Log("player ← move key pressed.");
                 pl.FaceTo(PlayerDirection.Left);
+                pl.PlayerAngleChangeLeft();
                 pl.MoveKeyPressed = true; // trigger movement
             }
 
@@ -60,6 +65,7 @@ namespace PlayerLogic
             {
                 if (debug) Debug.Log("player → move key pressed.");
                 pl.FaceTo(PlayerDirection.Right);
+                pl.PlayerAngleChangeRight();
                 pl.MoveKeyPressed = true; // trigger movement
             }
         }
@@ -71,6 +77,7 @@ namespace PlayerLogic
             if (Input.GetKeyUp(RightMoveKeyCode)) pl.MoveKeyPressed = false;
             if (Input.GetKeyUp(JumpKeyCode)) pl.JumpKeyPressed = false;
             if (Input.GetKeyUp(ShootKeyCode)) pl.ShootKeyPressed = false;
+            if (Input.GetKeyUp(ClingKeyCode)) pl.ClingKeyPressed = false;
         }
     }
 }

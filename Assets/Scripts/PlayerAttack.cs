@@ -11,10 +11,12 @@ namespace PlayerLogic
         public int CreateShootCount = 5;
         public float DefaultShootSpeed = 1.0f;
         public float DefaultShootTime = 1.0f;
+        //CoolDonwSetValue
+        public float SetShootCollDownTime = 0.1f;
 
         private readonly List<ShootData> ListShoot = new List<ShootData>();
-
-
+        //Main CoolDown Counter
+        private float ShootColllDownCounter;
 
         [System.Serializable]
         public class ShootData
@@ -58,6 +60,12 @@ namespace PlayerLogic
         // Update bullets status
         private void FixedUpdate()
         {
+            //CoolDowRecast
+            if (ShootColllDownCounter > 0)
+            {
+                ShootColllDownCounter -= Time.deltaTime;
+            }
+
             foreach (var data in ListShoot)
             {
                 if (data.shootHitCheck.HitFlag)
@@ -80,11 +88,17 @@ namespace PlayerLogic
                     data.shootTime -= Time.fixedDeltaTime;
                 }
             }
+
+           
         }
 
         // Shoot a bullet
         public void ShootStart(Vector3 _startPositon, Vector2 _moveVec)
         {
+            if (ShootColllDownCounter > 0)
+            {
+                return;
+            }
             foreach (var data in ListShoot)
             {
                 if (data.shootNow == false)
@@ -96,6 +110,7 @@ namespace PlayerLogic
                     data.shootTime = DefaultShootTime;
                     data.shootObject.SetActive(true);
                     data.shootNow = true;
+                    ShootColllDownCounter = SetShootCollDownTime;
                     return;
                 }
             }

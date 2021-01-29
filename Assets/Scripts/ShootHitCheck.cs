@@ -2,13 +2,32 @@
 // attached to a bullet and check bullet hit.
 using UnityEngine;
 
-public class ShootHitCheck : MonoBehaviour
+namespace PlayerLogic
 {
-    public bool HitFlag = false;
-
-    // todo this should check what it hits: player? enemy? wall?
-    private void OnCollisionEnter2D(Collision2D collision)
+    public class ShootHitCheck : MonoBehaviour
     {
-        HitFlag = true;
+        public bool HitFlag = false;
+
+        // todo this should check what it hits: player? enemy? wall?
+        private void OnCollisionEnter2D(Collision2D collision)
+        {
+            //hits enemy and wall 
+            if (!collision.gameObject.CompareTag("Player") && !collision.gameObject.CompareTag("PlayerArea"))
+            {
+                Debug.Log("Hit!!");
+                HitFlag = true;
+            }
+        }
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            //hits enemy and wall
+            if (!collision.gameObject.CompareTag("Player") && !collision.gameObject.CompareTag("PlayerArea"))
+            {
+                Debug.Log("Hit!");
+                Debug.Log(collision.gameObject);
+                HitFlag = true;
+            }
+
+        }
     }
 }

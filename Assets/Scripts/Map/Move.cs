@@ -2,6 +2,7 @@ using UnityEngine;
 
 namespace MapLogic
 {
+    // todo Seems the script is not used?
     public class Move : MonoBehaviour
     {
         [SerializeField] Vector2 player;

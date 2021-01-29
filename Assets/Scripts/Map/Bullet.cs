@@ -21,6 +21,8 @@ namespace MapLogic
             trans.position = pos;
         }
 
+        // fixme if it doesn't hit anything, it never destroys
+        // fixme give it a lifetime
         private void OnCollisionEnter2D(Collision2D collision)
         {
             if (collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("Block"))

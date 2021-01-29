@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyJump : EnemyBasic
@@ -26,13 +24,11 @@ public class EnemyJump : EnemyBasic
     {
         FindPlayerDirection();
         JumpMove();
-
     }
 
     public override void EnemyIdle()
     {
         JumpMove();
-
     }
 
     public void JumpMove()
@@ -51,10 +47,7 @@ public class EnemyJump : EnemyBasic
             timeDelay = Time.time + jumpDelay;
 
         }
-        
         Debug.Log(jumping);
-
-
     }
 
     public bool CanJump()
@@ -89,6 +82,4 @@ public class EnemyJump : EnemyBasic
             jumping = true;
         }
     }
-
-
 }

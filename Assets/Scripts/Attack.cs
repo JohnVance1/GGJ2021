@@ -9,7 +9,10 @@ public class Attack : MonoBehaviour
 
     [SerializeField]
     GameObject setShootObject;
-    
+
+    [SerializeField]
+    Rigidbody2D SetPlayerRigidbody2D;
+
     public int CreateShootCount = 5;
 
     public float DefaultShootSpeed = 1.0f;
@@ -17,6 +20,8 @@ public class Attack : MonoBehaviour
     public float DefaultShootTime = 1.0f;
 
     public List<ShootData> ListShoot = null;
+
+
 
     [System.Serializable]
     public class ShootData {

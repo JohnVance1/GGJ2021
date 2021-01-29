@@ -38,11 +38,11 @@ namespace PlayerLogic
 
         public bool debug = true;
         #endregion
-
+    
 
         #region Runtime
         // jump
-        public bool enableJump { get; private set; }
+         public bool enableJump { get; private set; }
         public bool InAir { get; private set; }
         // move
         public int Facing { get; private set; } // 1 -> right, -1 -> Left
@@ -52,6 +52,8 @@ namespace PlayerLogic
         private int jumpCount;
         // rush
         public bool InRush { get; private set; }
+        [SerializeField]
+        RushCollider rushCollider = default;
 
         // key press event
         public bool MoveKeyPressed { get; internal set; }
@@ -77,6 +79,8 @@ namespace PlayerLogic
 
             if (MoveKeyPressed) Move();
             else Speed = 0;
+
+
 
             Vector3 pos = transform.position;
             Vector3 vel = new Vector3(Speed * Facing, 0, 0);
@@ -108,6 +112,7 @@ namespace PlayerLogic
                 if (debug)
                     Debug.Log("Player jump.");
 
+
                 rb.AddForce(Vector2.up * jumpForce);
                 jumpCount++;
             }
@@ -133,6 +138,11 @@ namespace PlayerLogic
         public void Rush()
         {
             // be careful with collision detection
+            foreach(var EnemyData in rushCollider.NowColliderObject)
+            {
+                
+            }
+
         }
 
         public void Cling()

@@ -42,7 +42,7 @@ namespace PlayerLogic
 
         #region Runtime
         // jump
-        public bool enableJump { get; private set; }
+        public bool enableJump;
         public bool InAir { get; private set; }
         // move
         public int Facing { get; private set; } // 1 -> right, -1 -> Left
@@ -83,9 +83,7 @@ namespace PlayerLogic
             // shoot if key is continuously pressed
             if (ShootKeyPressed) Shoot();
 
-            // apply velocity,
-            // update position,
-
+            // apply velocity, update position
             if (MoveKeyPressed) Move();
             else Speed = 0;
 
@@ -114,18 +112,22 @@ namespace PlayerLogic
 
         public void Jump()
         {
+            if (debug)
+                Debug.Log("player jump check: can jump " + CanJump);
+
             // basic jump
-            if (jumpCount == 0 && enableJump && !InAir)
+            if (CanJump)
             {
                 if (debug)
                     Debug.Log("Player jump.");
 
+                // fixme doesn't jump
                 rb.AddForce(Vector2.up * jumpForce);
                 jumpCount++;
             }
 
             // double jump
-            if (jumpCount == 1 && enableDoubleJump)
+            if (CanDoubleJump)
             {
                 if (debug)
                     Debug.Log("Player double jump.");
@@ -184,5 +186,12 @@ namespace PlayerLogic
                 InAir = true;
             }
         }
+
+
+
+        #region Utils
+        private bool CanJump { get { return enableJump && jumpCount == 0 && !InAir; } }
+        private bool CanDoubleJump { get { return enableDoubleJump && jumpCount == 1; } }
+        #endregion
     }
 }

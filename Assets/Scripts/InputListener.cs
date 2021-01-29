@@ -8,6 +8,8 @@ namespace PlayerLogic
     [RequireComponent(typeof(Player))]
     public class InputListener : MonoBehaviour
     {
+        public bool debug = true;
+
         #region KeyPressCode
         // default keyboard bind
         public KeyCode LeftMoveKeyCode = KeyCode.LeftArrow;
@@ -37,22 +39,26 @@ namespace PlayerLogic
         {
             if (Input.GetKeyDown(JumpKeyCode))
             {
+                if (debug) Debug.Log("player jump key pressed.");
                 pl.Jump();
             }
 
             if (Input.GetKeyDown(ShootKeyCode))
             {
+                if (debug) Debug.Log("player shoot key pressed.");
                 pl.ShootKeyPressed = true;
             }
 
             if (Input.GetKeyDown(LeftMoveKeyCode))
             {
+                if (debug) Debug.Log("player ← move key pressed.");
                 pl.FaceTo(PlayerDirection.Left);
                 pl.MoveKeyPressed = true; // trigger movement
             }
 
             if (Input.GetKeyDown(RightMoveKeyCode))
             {
+                if (debug) Debug.Log("player → move key pressed.");
                 pl.FaceTo(PlayerDirection.Right);
                 pl.MoveKeyPressed = true; // trigger movement
             }
@@ -64,7 +70,7 @@ namespace PlayerLogic
             if (Input.GetKeyUp(LeftMoveKeyCode)) pl.MoveKeyPressed = false;
             if (Input.GetKeyUp(RightMoveKeyCode)) pl.MoveKeyPressed = false;
             if (Input.GetKeyUp(JumpKeyCode)) pl.JumpKeyPressed = false;
-            if (Input.GetKeyUp(ShootKeyCode)) pl.ShootKeyPressed = true;
+            if (Input.GetKeyUp(ShootKeyCode)) pl.ShootKeyPressed = false;
         }
     }
 }

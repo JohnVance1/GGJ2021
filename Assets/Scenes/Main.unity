@@ -337,6 +337,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04f4bfd7898464a7eb1b8c562a639ab3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  debug: 1
   LeftMoveKeyCode: 276
   RightMoveKeyCode: 275
   JumpKeyCode: 273
@@ -356,8 +357,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 0.2
-  jumpForce: 1
+  jumpForce: 10
   debug: 1
+  enableJump: 1
   enableDoubleJump: 0
 --- !u!114 &1476191823
 MonoBehaviour:

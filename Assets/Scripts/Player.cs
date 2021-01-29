@@ -27,7 +27,7 @@ namespace PlayerLogic
 
 
 
-    [RequireComponent(typeof(Rigidbody2D))]
+    [RequireComponent(typeof(Rigidbody2D), typeof(PlayerAttack))]
     public class Player : MonoBehaviour
     {
         #region Attrs
@@ -52,12 +52,17 @@ namespace PlayerLogic
         private int jumpCount;
         // rush
         public bool InRush { get; private set; }
+        // attack
+        private PlayerAttack bulletManager;
+        // cling
 
         // key press event
         public bool MoveKeyPressed { get; internal set; }
         public bool JumpKeyPressed { get; internal set; }
+        public bool ShootKeyPressed { get; internal set; }
 
         private Rigidbody2D rb;
+        private SpriteRenderer render;
         #endregion
 
 
@@ -68,10 +73,16 @@ namespace PlayerLogic
             Speed = 0;
 
             rb = GetComponent<Rigidbody2D>();
+            render = GetComponent<SpriteRenderer>();
+
+            bulletManager = GetComponent<PlayerAttack>();
         }
 
         private void Update()
         {
+            // shoot if key is continuously pressed
+            if (ShootKeyPressed) Shoot();
+
             // apply velocity,
             // update position,
 
@@ -93,6 +104,7 @@ namespace PlayerLogic
         public void FaceTo(PlayerDirection dir)
         {
             Facing = dir.ToFacing();
+            render.flipX = Facing < 0;
         }
 
         public void Move()
@@ -127,7 +139,11 @@ namespace PlayerLogic
         {
             // spawn Bullet prefab
             //   (use a bullet manager to handle all bullet movements & collisions,
-            //   instead of updating independet gameObject, for efficiency.)
+            //   instead of updating independent gameObject, for efficiency.)
+            Vector3 pos = transform.position;
+            Vector2 dir = Facing > 0 ? Vector2.right : Vector2.left;
+
+            bulletManager.ShootStart(pos, dir);
         }
 
         public void Rush()

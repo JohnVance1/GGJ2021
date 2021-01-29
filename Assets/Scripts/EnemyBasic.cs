@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,10 +12,10 @@ public class EnemyBasic : MonoBehaviour
     private SpriteRenderer debugSprite;
     [SerializeField]
     private GameObject player;
-
-    
+    private float direction;
+    [SerializeField]
+    private float moveSpeed;
     #endregion
-
 
 
     public enum EnemyStates
@@ -30,17 +30,19 @@ public class EnemyBasic : MonoBehaviour
     public void Start()
     {
         debugSprite = GetComponent<SpriteRenderer>();
+        direction = 1;
+        moveSpeed = 1;
 
     }
 
     public void Update()
     {
         UpdateState(player);
-
     }
 
     /// <summary>
     /// Purpose: Updates the states of the enemy
+    /// 目的：敵の状態を更新します
     /// </summary>
     /// <param name="playerObj">Reference to the player object</param>
     public void UpdateState(GameObject playerObj)
@@ -50,16 +52,12 @@ public class EnemyBasic : MonoBehaviour
         switch (enemyState)
         {
             case EnemyStates.Idle:
-                if(dist < 5f)
-                {
-                    enemyState = EnemyStates.Attack;
-                }
+                if(dist < 5f) enemyState = EnemyStates.Attack;
+                
                 break;
             case EnemyStates.Attack:
-                if (dist >= 5f)
-                {
-                    enemyState = EnemyStates.Idle;
-                }
+                if (dist >= 5f) enemyState = EnemyStates.Idle;
+                
                 break;
 
 
@@ -72,6 +70,7 @@ public class EnemyBasic : MonoBehaviour
 
     /// <summary>
     /// Purpose: Explains what each state does on the base level
+    /// 目的：各州が基本レベルで何をするかを説明します
     /// </summary>
     /// <param name="currentState">Gets the reference to the current state</param>
     public void DoState(EnemyStates currentState)
@@ -81,20 +80,12 @@ public class EnemyBasic : MonoBehaviour
             case EnemyStates.Idle:
             
                 debugSprite.color = Color.green;
-                Move(1);
+                Move();
                 break;
             case EnemyStates.Attack:
                 debugSprite.color = Color.red;
-                if(FindPlayerDirection() < 0)
-                {
-                    Move(1);
-
-                }
-                else
-                {
-                    Move(-1);
-
-                }
+                FindPlayerDirection();
+                Move();
 
                 break;
             
@@ -103,13 +94,13 @@ public class EnemyBasic : MonoBehaviour
     }
 
     /// <summary>
-    /// Purpose: Allows for the enemy to move
+    /// Purpose: Allows for the enemy to move.
+    /// 目的：敵が移動できるようにします。
     /// </summary>
-    /// <param name="dir"></param>
-    public void Move(float dir)
+    public void Move()
     {
         Vector3 pos = transform.position;
-        Vector3 vel = new Vector3(0.01f * dir, 0, 0);
+        Vector3 vel = new Vector3(moveSpeed * direction, 0, 0);
         pos += vel;
 
         transform.position = pos;
@@ -117,13 +108,16 @@ public class EnemyBasic : MonoBehaviour
 
     /// <summary>
     /// Purpose: Finds the direction of the player
+    /// 目的：プレイヤーの方向を見つけます
     /// </summary>
     /// <returns></returns>
-    public float FindPlayerDirection()
+    public void FindPlayerDirection()
     {
         float adj = (transform.position.x - player.transform.position.x);
-        
-        return adj;
+
+        if (adj < 0) direction = 1;
+        else direction = -1;
+
     }
 
 

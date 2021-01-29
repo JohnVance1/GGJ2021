@@ -11,6 +11,10 @@ GameObject:
   - component: {fileID: 6308614766986943328}
   - component: {fileID: 6308614766986943331}
   - component: {fileID: 2940299321199508199}
+  - component: {fileID: 2977672569210280179}
+  - component: {fileID: -4884175962015440914}
+  - component: {fileID: -8350042712346294875}
+  - component: {fileID: 1929226659084650119}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -109,3 +113,76 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.5, y: 1}
   m_EdgeRadius: 0
+--- !u!50 &2977672569210280179
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6308614766986943330}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 2
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
+--- !u!114 &-4884175962015440914
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6308614766986943330}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a1bb2530f45cb34e82805f38c6c7b45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  setShootObject: {fileID: 2620703623198387218, guid: 36be1d94f222be74ca7ff8bf8e9a5e03, type: 3}
+  CreateShootCount: 5
+  DefaultShootSpeed: 1
+  DefaultShootTime: 1
+--- !u!114 &-8350042712346294875
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6308614766986943330}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 397d861f60d1941cfb350c304e5319df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 0.1
+  jumpForce: 200
+  debug: 1
+  enableJump: 1
+  enableDoubleJump: 1
+--- !u!114 &1929226659084650119
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6308614766986943330}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04f4bfd7898464a7eb1b8c562a639ab3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  debug: 1
+  LeftMoveKeyCode: 276
+  RightMoveKeyCode: 275
+  JumpKeyCode: 273
+  RushKeyCode: 274
+  ShootKeyCode: 122
+  ClingKeyCode: 120

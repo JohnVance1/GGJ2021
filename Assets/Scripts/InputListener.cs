@@ -8,6 +8,8 @@ namespace PlayerLogic
     [RequireComponent(typeof(Player))]
     public class InputListener : MonoBehaviour
     {
+        public bool debug = true;
+
         #region KeyPressCode
         // default keyboard bind
         public KeyCode LeftMoveKeyCode = KeyCode.LeftArrow;
@@ -33,51 +35,42 @@ namespace PlayerLogic
 
 
         // convert key press to player action
-        // todo change key binding
         private void KeyPress()
         {
+            if (Input.GetKeyDown(JumpKeyCode))
+            {
+                if (debug) Debug.Log("player jump key pressed.");
+                pl.Jump();
+            }
+
+            if (Input.GetKeyDown(ShootKeyCode))
+            {
+                if (debug) Debug.Log("player shoot key pressed.");
+                pl.ShootKeyPressed = true;
+            }
+
             if (Input.GetKeyDown(LeftMoveKeyCode))
             {
+                if (debug) Debug.Log("player ← move key pressed.");
                 pl.FaceTo(PlayerDirection.Left);
                 pl.MoveKeyPressed = true; // trigger movement
-                return;
             }
 
             if (Input.GetKeyDown(RightMoveKeyCode))
             {
+                if (debug) Debug.Log("player → move key pressed.");
                 pl.FaceTo(PlayerDirection.Right);
                 pl.MoveKeyPressed = true; // trigger movement
-                return;
-            }
-
-            if (Input.GetKeyDown(JumpKeyCode))
-            {
-                pl.Jump();
-                return;
             }
         }
 
-        // todo replace hardcoded KeyCode to actual freely bind keycodes!
-        // todo this surely wrong
+        // listen to freely bind keycodes, set player status
         private void KeyUp()
         {
-            if (Input.GetKeyUp(KeyCode.LeftArrow))
-            {
-                pl.MoveKeyPressed = false;
-                return;
-            }
-
-            if (Input.GetKeyUp(KeyCode.RightArrow))
-            {
-                pl.MoveKeyPressed = false;
-                return;
-            }
-
-            if (Input.GetKeyUp(KeyCode.UpArrow))
-            {
-                pl.JumpKeyPressed = false;
-                return;
-            }
+            if (Input.GetKeyUp(LeftMoveKeyCode)) pl.MoveKeyPressed = false;
+            if (Input.GetKeyUp(RightMoveKeyCode)) pl.MoveKeyPressed = false;
+            if (Input.GetKeyUp(JumpKeyCode)) pl.JumpKeyPressed = false;
+            if (Input.GetKeyUp(ShootKeyCode)) pl.ShootKeyPressed = false;
         }
     }
 }

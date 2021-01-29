@@ -112,16 +112,12 @@ namespace PlayerLogic
 
         public void Jump()
         {
-            if (debug)
-                Debug.Log("player jump check: can jump " + CanJump);
-
             // basic jump
             if (CanJump)
             {
                 if (debug)
                     Debug.Log("Player jump.");
 
-                // fixme doesn't jump
                 rb.AddForce(Vector2.up * jumpForce);
                 jumpCount++;
             }
@@ -160,6 +156,7 @@ namespace PlayerLogic
         #endregion
 
 
+        #region CollisionCheck
         private void OnCollisionEnter2D(Collision2D collision)
         {
             // todo if hit ground from upside, reset
@@ -186,7 +183,7 @@ namespace PlayerLogic
                 InAir = true;
             }
         }
-
+        #endregion
 
 
         #region Utils

@@ -10,8 +10,6 @@ public class Attack : MonoBehaviour
     [SerializeField]
     GameObject setShootObject;
 
-    [SerializeField]
-    Rigidbody2D SetPlayerRigidbody2D;
 
     public int CreateShootCount = 5;
 

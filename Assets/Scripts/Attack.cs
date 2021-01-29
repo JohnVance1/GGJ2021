@@ -67,6 +67,11 @@ public class Attack : MonoBehaviour
             //ShoootSample
             ShootStart(setPlayerObject.transform.position, Vector2.left);
         }
+        else if (Input.GetKeyDown(KeyCode.X))
+        {
+            //ShoootSample
+            ShootStart(setPlayerObject.transform.position, Vector2.right);
+        }
     }
 
     private void FixedUpdate()

@@ -168,5 +168,32 @@ namespace PlayerLogic
                 InAir = true;
             }
         }
+
+        //アイテム関連でトリガーを扱っているためここに書いています。
+        //I'm writing this here because I'm dealing with triggers in an item-related way.
+        //Author Shion
+        private void OnTriggerEnter2D(Collider2D trigger) {
+            var obj = trigger.gameObject;
+            Debug.Log(true);
+            if (obj.CompareTag("Item")) {
+                var ITEMS = obj.GetComponent<ItemObjects>();
+                if (ITEMS == null) return;
+                switch (ITEMS.GetItemType()) {
+                    case ItemType.Item_Jump:
+                        break;
+                    case ItemType.Item_Climb:
+                        break;
+                    case ItemType.Item_left:
+                        break;
+                    case ItemType.Item_Rush:
+                        break;
+                    case ItemType.Item_Throw:
+                        break;
+                    case ItemType.Item_SlotAdd:
+                        break;
+                }
+                Destroy(obj);
+            }
+        }
     }
 }

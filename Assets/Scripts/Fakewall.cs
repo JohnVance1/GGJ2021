@@ -21,7 +21,7 @@ public class Fakewall : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0.4f);
+            this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0.6f);
         }
     }
     private void OnTriggerExit2D(Collider2D collision)

@@ -371,12 +371,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a1bb2530f45cb34e82805f38c6c7b45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  setPlayerObject: {fileID: 1476191816}
-  shootObject: {fileID: 3982555945685822235, guid: 378251c349f0e004a8bb0a10d44eec82, type: 3}
-  CreateShootCount: 10
+  setPlayerObject: {fileID: 0}
+  setShootObject: {fileID: 0}
+  CreateShootCount: 5
+  DefaultShootSpeed: 1
   DefaultShootTime: 1
-  DefaultShootSpeed: 0.5
-  ListShoots: []
+  ListShoot: []
 --- !u!1001 &2739301572988568819
 PrefabInstance:
   m_ObjectHideFlags: 0

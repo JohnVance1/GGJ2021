@@ -337,6 +337,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04f4bfd7898464a7eb1b8c562a639ab3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  LeftMoveKeyCode: 276
+  RightMoveKeyCode: 275
+  JumpKeyCode: 273
+  RushKeyCode: 274
+  ShootKeyCode: 122
+  ClingKeyCode: 120
 --- !u!114 &1476191819
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -349,7 +355,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 397d861f60d1941cfb350c304e5319df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  acc: 1
+  moveSpeed: 0.2
+  jumpForce: 1
+  debug: 1
+  enableDoubleJump: 0
+--- !u!114 &1476191823
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1476191816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a1bb2530f45cb34e82805f38c6c7b45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  setShootObject: {fileID: 3243680230335673798, guid: 7a6b17962a4cdac49baec6f3c3d44988, type: 3}
+  CreateShootCount: 5
+  DefaultShootSpeed: 1
+  DefaultShootTime: 1
 --- !u!1001 &2739301572988568819
 PrefabInstance:
   m_ObjectHideFlags: 0

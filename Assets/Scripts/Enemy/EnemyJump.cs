@@ -70,8 +70,7 @@ namespace EnemyLogic
             if (collision.gameObject.CompareTag("Block"))
             {
                 jumping = false;
-                //rb.velocity = Vector2.zero;
-                //Speed = 0;
+                
             }
 
         }
@@ -82,6 +81,7 @@ namespace EnemyLogic
             if (collision.gameObject.CompareTag("Block"))
             {
                 jumping = true;
+
             }
         }
     }

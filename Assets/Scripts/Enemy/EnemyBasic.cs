@@ -16,6 +16,8 @@ namespace EnemyLogic
         protected int direction;
         [SerializeField]
         private float moveSpeed;
+        protected int health;
+        protected bool isAlive;
         #endregion
 
 
@@ -32,12 +34,13 @@ namespace EnemyLogic
             direction = 1;
             RandomDirection();
             moveSpeed = 0.01f;
-
+            isAlive = true;
         }
 
         public void Update()
         {
             UpdateState(player);
+            CheckAlive();
         }
 
         /// <summary>
@@ -135,11 +138,35 @@ namespace EnemyLogic
             }
         }
 
+        public void DecreaseHealth(int damage = 1)
+        {
+            health -= damage;
+            if(health <= 0)
+            {
+                isAlive = false;
+            }
+        }
+
+        public void CheckAlive()
+        {
+            if(!isAlive)
+            {
+                Destroy(gameObject);
+
+            }
+
+        }
+
         protected virtual void OnCollisionEnter2D(Collision2D collision)
         {
             if (collision.gameObject.CompareTag("Block"))
             {
                 direction *= -1;
+            }
+
+            if (collision.gameObject.CompareTag("Projectile"))
+            {
+                DecreaseHealth();
             }
         }
 

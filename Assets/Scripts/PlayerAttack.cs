@@ -51,6 +51,9 @@ namespace PlayerLogic
                 };
 
                 Data.shootHitCheck = Data.shootObject.GetComponent<ShootHitCheck>();
+
+                Data.shootObject.transform.SetParent(this.transform);
+
                 Data.shootObject.SetActive(false);
 
                 ListShoot.Add(Data);
@@ -72,6 +75,8 @@ namespace PlayerLogic
                 {
                     data.shootObject.SetActive(false);
                     data.shootNow = false;
+                    Debug.Log("OtherObjectHit");
+                    data.shootHitCheck.HitFlag = false;
                     continue;
                 }
 
@@ -81,6 +86,7 @@ namespace PlayerLogic
                     {
                         data.shootObject.SetActive(false);
                         data.shootNow = false;
+                        Debug.Log("AttackFalse");
                         continue;
                     }
 

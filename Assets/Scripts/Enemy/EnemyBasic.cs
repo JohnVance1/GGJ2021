@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 /// <summary>
 /// Author: John Vance
@@ -21,9 +19,7 @@ public class EnemyBasic : MonoBehaviour
 
     public enum EnemyStates
     {
-        Idle,
-        Attack
-
+        Idle, Attack
     }
 
     EnemyStates enemyState = EnemyStates.Idle;
@@ -55,19 +51,13 @@ public class EnemyBasic : MonoBehaviour
         {
             case EnemyStates.Idle:
                 if(dist < 5f) enemyState = EnemyStates.Attack;
-                
                 break;
             case EnemyStates.Attack:
                 if (dist >= 5f) enemyState = EnemyStates.Idle;
-                
                 break;
-
-
-
         }
 
         DoState(enemyState);
-
     }
 
     /// <summary>
@@ -86,9 +76,7 @@ public class EnemyBasic : MonoBehaviour
             case EnemyStates.Attack:
                 debugSprite.color = Color.red;
                 EnemyAttack();
-
                 break;
-            
         } 
 
     }
@@ -130,7 +118,6 @@ public class EnemyBasic : MonoBehaviour
     public virtual void EnemyIdle()
     {
         Move();
-
     }
 
     public void RandomDirection()
@@ -144,7 +131,6 @@ public class EnemyBasic : MonoBehaviour
         {
             direction = -1;
         }
-
     }    
 
     protected virtual void OnCollisionEnter2D(Collision2D collision)
@@ -152,16 +138,8 @@ public class EnemyBasic : MonoBehaviour
         if (collision.gameObject.CompareTag("Block"))
         {
             direction *= -1;
-            
         }
-
     }
 
-    protected virtual void OnCollisionExit2D(Collision2D collision)
-    {
-        
-    }
-
-
-
+    protected virtual void OnCollisionExit2D(Collision2D collision) {  }
 }

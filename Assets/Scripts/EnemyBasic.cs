@@ -11,8 +11,9 @@ public class EnemyBasic : MonoBehaviour
     #region Variables
     private SpriteRenderer debugSprite;
     [SerializeField]
-    private GameObject player;
-    private float direction;
+    protected GameObject player;
+    protected GameObject thisEnemyObj;
+    protected int direction;
     [SerializeField]
     private float moveSpeed;
     #endregion
@@ -27,11 +28,12 @@ public class EnemyBasic : MonoBehaviour
 
     EnemyStates enemyState = EnemyStates.Idle;
 
-    public void Start()
+    public virtual void Start()
     {
         debugSprite = GetComponent<SpriteRenderer>();
         direction = 1;
-        moveSpeed = 1;
+        RandomDirection();
+        moveSpeed = 0.01f;
 
     }
 
@@ -73,19 +75,17 @@ public class EnemyBasic : MonoBehaviour
     /// 目的：各州が基本レベルで何をするかを説明します
     /// </summary>
     /// <param name="currentState">Gets the reference to the current state</param>
-    public void DoState(EnemyStates currentState)
+    protected void DoState(EnemyStates currentState)
     {
         switch (currentState)
         {
             case EnemyStates.Idle:
-            
                 debugSprite.color = Color.green;
-                Move();
+                EnemyIdle();
                 break;
             case EnemyStates.Attack:
                 debugSprite.color = Color.red;
-                FindPlayerDirection();
-                Move();
+                EnemyAttack();
 
                 break;
             
@@ -120,6 +120,48 @@ public class EnemyBasic : MonoBehaviour
 
     }
 
+    public virtual void EnemyAttack()
+    {
+        FindPlayerDirection();
+        Move();
 
-    
+    }
+
+    public virtual void EnemyIdle()
+    {
+        Move();
+
+    }
+
+    public void RandomDirection()
+    {
+        int rand = Random.Range(0, 1);
+        if(rand == 0)
+        {
+            direction = 1;
+        }
+        else
+        {
+            direction = -1;
+        }
+
+    }    
+
+    protected virtual void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Block"))
+        {
+            direction *= -1;
+            
+        }
+
+    }
+
+    protected virtual void OnCollisionExit2D(Collision2D collision)
+    {
+        
+    }
+
+
+
 }

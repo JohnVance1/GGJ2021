@@ -55,6 +55,11 @@ namespace PlayerLogic
                 pl.Jump();
                 return;
             }
+            if (Input.GetKeyDown(ShootKeyCode))
+            {
+                pl.Shoot();
+                return;
+            }
         }
 
         // todo replace hardcoded KeyCode to actual freely bind keycodes!

@@ -52,19 +52,24 @@ namespace PlayerLogic
         private int jumpCount;
         // rush
         public bool InRush { get; private set; }
-        [SerializeField]
-        RushCollider rushCollider = default;
 
         // key press event
         public bool MoveKeyPressed { get; internal set; }
         public bool JumpKeyPressed { get; internal set; }
 
         private Rigidbody2D rb;
+
+        [SerializeField]
+        private RushCollider rushCollider = default;
+
+        [SerializeField]
+        private Attack attack = default;
+
         #endregion
 
 
-        #region GameCycle
-        private void Awake()
+    #region GameCycle
+    private void Awake()
         {
             Facing = 1;
             Speed = 0;
@@ -122,7 +127,7 @@ namespace PlayerLogic
             {
                 if (debug)
                     Debug.Log("Player double jump.");
-
+            
                 rb.AddForce(Vector2.up * jumpForce);
                 jumpCount++;
             }
@@ -133,6 +138,7 @@ namespace PlayerLogic
             // spawn Bullet prefab
             //   (use a bullet manager to handle all bullet movements & collisions,
             //   instead of updating independet gameObject, for efficiency.)
+            attack.ShootStart(this.gameObject.transform.position,Vector2.right);
         }
 
         public void Rush()

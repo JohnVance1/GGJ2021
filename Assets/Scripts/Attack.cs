@@ -65,6 +65,7 @@ public class Attack : MonoBehaviour
 
     private void Update()
     {
+        /*
         if (Input.GetKeyDown(KeyCode.Z))
         {
             //ShoootSample
@@ -75,6 +76,7 @@ public class Attack : MonoBehaviour
             //ShoootSample
             ShootStart(setPlayerObject.transform.position, Vector2.right);
         }
+        */
     }
 
     private void FixedUpdate()

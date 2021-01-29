@@ -402,6 +402,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04f4bfd7898464a7eb1b8c562a639ab3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  debug: 1
   LeftMoveKeyCode: 276
   RightMoveKeyCode: 275
   JumpKeyCode: 273
@@ -423,6 +424,7 @@ MonoBehaviour:
   moveSpeed: 1
   jumpForce: 1
   debug: 1
+  enableJump: 0
   enableDoubleJump: 0
 --- !u!114 &1476191820
 MonoBehaviour:
@@ -436,12 +438,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a1bb2530f45cb34e82805f38c6c7b45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  setPlayerObject: {fileID: 1476191816}
   setShootObject: {fileID: 3243680230335673798, guid: 7a6b17962a4cdac49baec6f3c3d44988, type: 3}
   CreateShootCount: 5
   DefaultShootSpeed: 0.1
   DefaultShootTime: 1
-  ListShoot: []
 --- !u!1001 &2739301572988568819
 PrefabInstance:
   m_ObjectHideFlags: 0

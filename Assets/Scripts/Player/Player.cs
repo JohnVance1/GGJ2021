@@ -32,9 +32,9 @@ namespace PlayerLogic
     {
         #region Attrs
         [Min(0)]
-        public float moveSpeed = 1f;
+        public float moveSpeed = .1f;
         [Min(0)]
-        public float jumpForce = 1f;
+        public float jumpForce = 200f;
 
         public bool debug = true;
         #endregion

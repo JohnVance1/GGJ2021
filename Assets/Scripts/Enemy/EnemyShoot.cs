@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using PlayerLogic;
+using MapLogic;
 
 namespace EnemyLogic
 {
@@ -13,7 +14,10 @@ namespace EnemyLogic
         private int jumpPower;
         private float jumpDelay;
         private float timeDelay;
-        private EnemyAttack bulletManager;
+        private float shootDelay;
+        private float timeShootDelay;
+        [SerializeField]
+        private GameObject enemyBullet;
 
 
         public override void Start()
@@ -25,8 +29,8 @@ namespace EnemyLogic
             jumpDelay = 2.0f;
             timeDelay = 0.0f;
             moveSpeed = 0.01f;
-            bulletManager = GetComponent<EnemyAttack>();
-
+            shootDelay = 0.5f;
+            timeShootDelay = 0.0f;
         }
 
         public override void EnemyAttack()
@@ -47,9 +51,7 @@ namespace EnemyLogic
             Vector3 vel = new Vector3(moveSpeed * direction, 0, 0);
             pos += vel;
 
-            transform.position = pos;
-
-            
+            transform.position = pos;           
 
         }
 
@@ -68,10 +70,23 @@ namespace EnemyLogic
 
             }
 
-            Vector3 pos = transform.position;
-            Vector2 dir = direction > 0 ? Vector2.right : Vector2.left;
+            if (CanShoot())
+            {
 
-            bulletManager.ShootStart(pos, dir);
+                Vector3 pos = new Vector3(transform.position.x + (0.5f * direction), transform.position.y, transform.position.z);
+
+                GameObject bullet = Instantiate(enemyBullet, pos, Quaternion.identity);
+                float dir = direction > 0 ? (bullet.GetComponent<Bullet>().angle = 180) : (bullet.GetComponent<Bullet>().angle = 0); 
+
+                timeShootDelay = Time.time + shootDelay;
+
+            }
+        }
+
+        public bool CanShoot()
+        {
+            return (Time.time > timeShootDelay);
+
         }
 
         public bool CanJump()

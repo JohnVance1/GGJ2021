@@ -689,6 +689,10 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 58085581}
+    - target: {fileID: 5138815492740276408, guid: fdf90e813771fc04790c516988ddce5e, type: 3}
+      propertyPath: enemyBullet
+      value: 
+      objectReference: {fileID: 7269840614623841088, guid: c4f318856d7ebfc408f3c8adefb3b73e, type: 3}
     - target: {fileID: 8364661419978120071, guid: fdf90e813771fc04790c516988ddce5e, type: 3}
       propertyPath: m_RootOrder
       value: 7
@@ -739,24 +743,3 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fdf90e813771fc04790c516988ddce5e, type: 3}
---- !u!1 &9207794200191606850 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8364661419978120075, guid: fdf90e813771fc04790c516988ddce5e, type: 3}
-  m_PrefabInstance: {fileID: 9207794200191606849}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &9207794200191606851
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9207794200191606850}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7ca34486a0f22a044babcee781cbd398, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  setShootObject: {fileID: 2620703623198387218, guid: 36be1d94f222be74ca7ff8bf8e9a5e03, type: 3}
-  CreateShootCount: 5
-  DefaultShootSpeed: 1
-  DefaultShootTime: 1

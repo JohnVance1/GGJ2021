@@ -16,12 +16,18 @@ namespace PlayerLogic
     {
         public static int ToFacing(this PlayerDirection dir)
         {
-            return dir switch
+            //return dir switch
+            //{
+            //    PlayerDirection.Left => -1,
+            //    PlayerDirection.Right => 1,
+            //    _ => 0,
+            //};
+            switch (dir)
             {
-                PlayerDirection.Left => -1,
-                PlayerDirection.Right => 1,
-                _ => 0,
-            };
+                case PlayerDirection.Left: return -1;
+                case PlayerDirection.Right: return 1;
+                default: return 0;
+            }
         }
     }
     #endregion
@@ -273,12 +279,6 @@ namespace PlayerLogic
             spawn.spawnPoint = transform.position;
         }
 
-        public void SaveSpawnPoint()
-        {
-            Debug.Log("Player save spawn point at: " + spawn.spawnPoint);
-            spawn.spawnPoint = transform.position;
-        }
-
         public void Spawn()
         {
             Debug.Log("Player respawn at: " + spawn.spawnPoint);
@@ -314,7 +314,7 @@ namespace PlayerLogic
                 c.a = 0.5f;
                 render.color = c;
                 Invoke("waitHit", 1f);
-                if (nowHP <= 0) Spwan();
+                if (nowHP <= 0) Spawn();
             }
         }
 

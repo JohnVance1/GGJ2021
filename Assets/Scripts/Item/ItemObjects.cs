@@ -1,12 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 public enum ItemType {
     Item_Jump = 0,
     Item_Climb = 1,
-    Item_left = 2,
+    Item_Left = 2,
     Item_Rush = 3,
-    Item_Throw = 4,
+    Item_DoubleJump = 4,
     Item_SlotAdd = 5,
 }
 public class ItemObjects : MonoBehaviour {

@@ -19,7 +19,7 @@ namespace PlayerLogic
         [System.Serializable]
         public class ShootData
         {
-            //Object
+            //Bullet Prefab
             public GameObject shootObject;
             //HitCheck 
             public ShootHitCheck shootHitCheck;
@@ -95,6 +95,8 @@ namespace PlayerLogic
                     data.shootTime = DefaultShootTime;
                     data.shootObject.SetActive(true);
                     data.shootNow = true;
+
+                    data.shootObject.GetComponent<SpriteRenderer>().flipX = data.moveVec.x < 0;
                     return;
                 }
             }

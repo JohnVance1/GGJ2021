@@ -240,8 +240,9 @@ namespace PlayerLogic
                     if (debug)
                         Debug.Log("Player leave ground.");
 
-                    InAir = true;
                 }
+                InAir = true;
+
             }
         }
 

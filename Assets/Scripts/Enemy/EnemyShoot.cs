@@ -1,15 +1,23 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using PlayerLogic;
+using MapLogic;
 
 namespace EnemyLogic
 {
-    public class EnemyJump : EnemyBasic
+    public class EnemyShoot : EnemyBasic
     {
-        EnemyStates enemyJumpState = EnemyStates.Idle;
+        EnemyStates enemyShootState = EnemyStates.Idle;
         private Rigidbody2D rb;
         private bool jumping;
         private int jumpPower;
-        private float jumpDelay = 2.0f;
-        private float timeDelay = 0.0f;
+        private float jumpDelay;
+        private float timeDelay;
+        private float shootDelay;
+        private float timeShootDelay;
+        [SerializeField]
+        private GameObject enemyBullet;
 
 
         public override void Start()
@@ -20,27 +28,39 @@ namespace EnemyLogic
             jumpPower = 10;
             jumpDelay = 2.0f;
             timeDelay = 0.0f;
+            moveSpeed = 0.01f;
+            shootDelay = 0.5f;
+            timeShootDelay = 0.0f;
         }
 
         public override void EnemyAttack()
         {
             FindPlayerDirection();
-            JumpMove();
+            ShootMove();
+            Shoot();
         }
 
         public override void EnemyIdle()
         {
-            JumpMove();
+            ShootMove();
         }
 
-        public void JumpMove()
+        public void ShootMove()
         {
-            //float jumpDirection = Random.Range(-1, 2);
+            Vector3 pos = transform.position;
+            Vector3 vel = new Vector3(moveSpeed * direction, 0, 0);
+            pos += vel;
 
+            transform.position = pos;           
+
+        }
+
+        public void Shoot()
+        {
             int jumpAngle = Random.Range(30, 75);
             Vector2 jumpVector = Rotate(Vector2.up, direction * jumpAngle * Mathf.Deg2Rad);
-
-            if (!jumping && CanJump())
+            Debug.Log(player.GetComponent<Player>().InAir);
+            if (!jumping && CanJump() && (player.GetComponent<Player>().InAir))
             {
                 //yield return new WaitForSeconds(5.0f);
                 jumpPower = 200;
@@ -49,6 +69,22 @@ namespace EnemyLogic
                 timeDelay = Time.time + jumpDelay;
 
             }
+
+            if (CanShoot())
+            {
+                Vector3 pos = new Vector3(transform.position.x + (0.5f * direction), transform.position.y, transform.position.z);
+
+                GameObject bullet = Instantiate(enemyBullet, pos, Quaternion.identity);
+                float dir = direction > 0 ? (bullet.GetComponent<Bullet>().angle = 180) : (bullet.GetComponent<Bullet>().angle = 0); 
+
+                timeShootDelay = Time.time + shootDelay;
+
+            }
+        }
+
+        public bool CanShoot()
+        {
+            return (Time.time > timeShootDelay);
 
         }
 
@@ -70,7 +106,7 @@ namespace EnemyLogic
             if (collision.gameObject.CompareTag("Block"))
             {
                 jumping = false;
-                
+
             }
 
         }
@@ -84,5 +120,7 @@ namespace EnemyLogic
 
             }
         }
+
     }
+
 }

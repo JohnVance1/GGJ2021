@@ -64,6 +64,7 @@ namespace PlayerLogic
         // cling
         public bool enableCling;
         private ClingHitCheck clingHitCheck;
+        public float ClingSpeed = 1.0f;
 
         // key press event
         public bool MoveKeyPressed { get; internal set; }
@@ -93,7 +94,7 @@ namespace PlayerLogic
 
             rushHitCheck = transform.GetChild(0).GetComponent<RushHitCheck>();
 
-            clingHitCheck = transform.GetChild(0).GetComponent<ClingHitCheck>();
+            clingHitCheck = transform.GetChild(1).GetComponent<ClingHitCheck>();
 
     }
 
@@ -106,7 +107,8 @@ namespace PlayerLogic
         {
 
             // pressing the Cling key.
-            if (ClingKeyPressed) { Cling(); return; } ;
+            if (ClingKeyPressed) { Cling(); return; }
+            else if( rb.isKinematic == true) rb.isKinematic = false;
 
             // shoot if key is continuously pressed
             if (ShootKeyPressed) Shoot();
@@ -208,13 +210,13 @@ namespace PlayerLogic
 
         public void Cling()
         {
-            return;
-            if (!enableCling) return;
 
+            if (!enableCling) return;
+            if (!clingHitCheck.ClingFlag) return;
             // attach to wall, cannot move, can jump
             // todo Lingxiao
-            Debug.Log("ClingON");
-            rb.isKinematic = false;
+
+            rb.isKinematic = true;
             //rb stop
             Vector2 _vel = rb.velocity;
             _vel.y = 0;
@@ -224,20 +226,11 @@ namespace PlayerLogic
             if (JumpKeyPressed)
             {
                 //Sample Up Move
-                transform.position += Vector3.up;
+                Debug.Log("ClingUp!");
+                transform.position += new Vector3(0.0f, ClingSpeed, 0.0f);
             }
-    }
-        public void ClingOff()
-        {
-            return;
-            if (!enableCling) return;
-
-            // attach to wall, cannot move, can jump
-            // todo Lingxiao
-            Debug.Log("ClingOff");
-            //rb ReStart
-            rb.isKinematic = true;
         }
+        
 
     public void Spwan()
         {

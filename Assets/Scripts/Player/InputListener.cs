@@ -41,6 +41,9 @@ namespace PlayerLogic
             {
                 if (debug) Debug.Log("player jump key pressed.");
                 pl.Jump();
+                //I added it because I want the Jump key input state.
+                //Assy
+                pl.JumpKeyPressed = true;
             }
 
             if (Input.GetKeyDown(ShootKeyCode))
@@ -90,7 +93,7 @@ namespace PlayerLogic
             if (Input.GetKeyUp(RightMoveKeyCode)) pl.MoveKeyPressed = false;
             if (Input.GetKeyUp(JumpKeyCode)) pl.JumpKeyPressed = false;
             if (Input.GetKeyUp(ShootKeyCode)) pl.ShootKeyPressed = false;
-            if (Input.GetKeyUp(ClingKeyCode)) pl.ClingKeyPressed = false; pl.ClingOff(); ;
+            if (Input.GetKeyUp(ClingKeyCode)) pl.ClingKeyPressed = false;
         }
     }
 }

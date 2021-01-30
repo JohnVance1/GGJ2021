@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using PlayerLogic;
 
 namespace EnemyLogic
 {
@@ -56,8 +57,9 @@ namespace EnemyLogic
         {
             int jumpAngle = Random.Range(30, 75);
             Vector2 jumpVector = Rotate(Vector2.up, direction * jumpAngle * Mathf.Deg2Rad);
+            float playerAbove = transform.position.y - player.transform.position.y;
 
-            if (!jumping && CanJump())
+            if (!jumping && CanJump() && (player.GetComponent<Player>().InAir))
             {
                 //yield return new WaitForSeconds(5.0f);
                 jumpPower = 200;

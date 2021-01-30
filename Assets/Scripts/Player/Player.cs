@@ -38,6 +38,12 @@ namespace PlayerLogic
         public float jumpForce = 200f;
 
         public bool debug = true;
+
+        //Shion--------------------------
+        public int InitHP = 3;//InitialHP
+        int nowHP = 0;
+
+        //-------------------------------
         #endregion
 
 
@@ -74,6 +80,10 @@ namespace PlayerLogic
         private Rigidbody2D rb;
         private SpriteRenderer render;
         private PlayerSpawn spawn;
+
+        //shion-------------------------
+        public bool isDamaged { get; private set; }
+        //------------------------------
         #endregion
 
 
@@ -92,6 +102,8 @@ namespace PlayerLogic
             spawn = GetComponent<PlayerSpawn>();
 
             rushHitCheck = GetComponent<RushHitCheck>();
+
+            nowHP = InitHP;
         }
 
         private void Start()
@@ -209,6 +221,9 @@ namespace PlayerLogic
         public void Spwan()
         {
             // player dies and respawn
+            transform.position = spawn.spawnPoint;
+            render.color = Color.white;
+            nowHP = InitHP;
         }
         #endregion
 
@@ -228,7 +243,21 @@ namespace PlayerLogic
                     jumpCount = 0;
                     Speed = 0;
                 }
+            } else if (collision.gameObject.CompareTag("Enemy")) {
+                if (debug) Debug.Log("Player hit Enemy.");
+                nowHP--;
+                isDamaged = true;
+                Color c = Color.white;
+                c.a = 0.5f;
+                render.color = c;
+                Invoke("waitHit", 1f);
+                if (nowHP <= 0) Spwan();
             }
+        }
+
+        void waitHit() {
+            render.color = Color.white;
+            isDamaged = false;
         }
 
         private void OnCollisionExit2D(Collision2D collision)
@@ -237,14 +266,14 @@ namespace PlayerLogic
             {
                 if (HitTop(collision))
                 {
-                    if (debug)
-                        Debug.Log("Player leave ground.");
+                    if (debug)Debug.Log("Player leave ground.");
 
                 }
                 InAir = true;
-
             }
         }
+
+    
 
         //アイテム関連でトリガーを扱っているためここに書いています。
         //I'm writing this here because I'm dealing with triggers in an item-related way.

@@ -555,6 +555,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: JumpEnemy
       objectReference: {fileID: 0}
+    - target: {fileID: 6469112677792209408, guid: 2875c2e8915004a4fabc6aeadae83dd7, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6469112677792209418, guid: 2875c2e8915004a4fabc6aeadae83dd7, type: 3}
       propertyPath: player
       value: 
@@ -615,6 +619,10 @@ PrefabInstance:
     - target: {fileID: 6678713151493067827, guid: 081f52307a0819048882edcb827ed4b3, type: 3}
       propertyPath: m_Name
       value: BasicEnemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 6678713151493067827, guid: 081f52307a0819048882edcb827ed4b3, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6678713151493067832, guid: 081f52307a0819048882edcb827ed4b3, type: 3}
       propertyPath: player

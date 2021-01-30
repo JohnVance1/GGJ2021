@@ -57,7 +57,6 @@ namespace EnemyLogic
         {
             int jumpAngle = Random.Range(30, 75);
             Vector2 jumpVector = Rotate(Vector2.up, direction * jumpAngle * Mathf.Deg2Rad);
-            float playerAbove = transform.position.y - player.transform.position.y;
 
             if (!jumping && CanJump() && (player.GetComponent<Player>().InAir))
             {

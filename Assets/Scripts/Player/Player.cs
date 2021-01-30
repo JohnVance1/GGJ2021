@@ -200,14 +200,6 @@ namespace PlayerLogic
                 vel.y = 0;
                 rb.velocity = vel;
 
-                // cancel cling
-                if (rb.isKinematic)
-                {
-                    rb.isKinematic = false;
-                    ClingKeyPressed = false;
-                    // set speed to back
-                    Speed = -moveSpeed;
-                }
                 // jump
                 rb.AddForce(Vector2.up * jumpForce);
                 jumpCount++;
@@ -273,12 +265,6 @@ namespace PlayerLogic
             spawn.spawnPoint = transform.position;
         }
 
-        public void SaveSpawnPoint()
-        {
-            Debug.Log("Player save spawn point at: " + spawn.spawnPoint);
-            spawn.spawnPoint = transform.position;
-        }
-
         public void Spawn()
         {
             Debug.Log("Player respawn at: " + spawn.spawnPoint);
@@ -314,13 +300,8 @@ namespace PlayerLogic
                 c.a = 0.5f;
                 render.color = c;
                 Invoke("waitHit", 1f);
-                if (nowHP <= 0) Spwan();
+                if (nowHP <= 0) Spawn();
             }
-        }
-
-        void waitHit() {
-            render.color = Color.white;
-            isDamaged = false;
         }
 
         private void OnCollisionExit2D(Collision2D collision)
@@ -335,8 +316,6 @@ namespace PlayerLogic
                 }
             }
         }
-
-    
 
         //アイテム関連でトリガーを扱っているためここに書いています。
         //I'm writing this here because I'm dealing with triggers in an item-related way.

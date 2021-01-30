@@ -40,7 +40,7 @@ namespace PlayerLogic
             if (Input.GetKeyDown(JumpKeyCode))
             {
                 if (debug) Debug.Log("player jump key pressed.");
-                pl.Jump();
+                pl.JumpKeyPressed = true;
             }
 
             if (Input.GetKeyDown(ShootKeyCode))
@@ -59,8 +59,6 @@ namespace PlayerLogic
             {
                 if (debug) Debug.Log("player ← move key pressed.");
                 pl.FaceTo(PlayerDirection.Left);
-                // todo is this necessar? did I have a problem with flipX?...
-                //pl.PlayerAngleChangeLeft();
                 pl.MoveKeyPressed = true; // trigger movement
             }
 
@@ -68,8 +66,6 @@ namespace PlayerLogic
             {
                 if (debug) Debug.Log("player → move key pressed.");
                 pl.FaceTo(PlayerDirection.Right);
-                // todo same?
-                //pl.PlayerAngleChangeRight();
                 pl.MoveKeyPressed = true; // trigger movement
             }
         }

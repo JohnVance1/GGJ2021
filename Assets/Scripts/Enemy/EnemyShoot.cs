@@ -1,15 +1,18 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace EnemyLogic
 {
-    public class EnemyJump : EnemyBasic
+    public class EnemyShoot : EnemyBasic
     {
-        EnemyStates enemyJumpState = EnemyStates.Idle;
+        EnemyStates enemyShootState = EnemyStates.Idle;
         private Rigidbody2D rb;
         private bool jumping;
         private int jumpPower;
-        private float jumpDelay = 2.0f;
-        private float timeDelay = 0.0f;
+        private float jumpDelay;
+        private float timeDelay;
+        private EnemyAttack bulletManager;
 
 
         public override void Start()
@@ -20,23 +23,37 @@ namespace EnemyLogic
             jumpPower = 10;
             jumpDelay = 2.0f;
             timeDelay = 0.0f;
+            moveSpeed = 0.01f;
+            bulletManager = GetComponent<EnemyAttack>();
+
         }
 
         public override void EnemyAttack()
         {
             FindPlayerDirection();
-            JumpMove();
+            ShootMove();
+            Shoot();
         }
 
         public override void EnemyIdle()
         {
-            JumpMove();
+            ShootMove();
         }
 
-        public void JumpMove()
+        public void ShootMove()
         {
-            //float jumpDirection = Random.Range(-1, 2);
+            Vector3 pos = transform.position;
+            Vector3 vel = new Vector3(moveSpeed * direction, 0, 0);
+            pos += vel;
 
+            transform.position = pos;
+
+            
+
+        }
+
+        public void Shoot()
+        {
             int jumpAngle = Random.Range(30, 75);
             Vector2 jumpVector = Rotate(Vector2.up, direction * jumpAngle * Mathf.Deg2Rad);
 
@@ -50,6 +67,10 @@ namespace EnemyLogic
 
             }
 
+            Vector3 pos = transform.position;
+            Vector2 dir = direction > 0 ? Vector2.right : Vector2.left;
+
+            bulletManager.ShootStart(pos, dir);
         }
 
         public bool CanJump()
@@ -70,7 +91,7 @@ namespace EnemyLogic
             if (collision.gameObject.CompareTag("Block"))
             {
                 jumping = false;
-                
+
             }
 
         }
@@ -84,5 +105,7 @@ namespace EnemyLogic
 
             }
         }
+
     }
+
 }

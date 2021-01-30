@@ -15,7 +15,7 @@ namespace EnemyLogic
         protected GameObject thisEnemyObj;
         protected int direction;
         [SerializeField]
-        private float moveSpeed;
+        protected float moveSpeed;
         protected int health;
         protected bool isAlive;
         #endregion

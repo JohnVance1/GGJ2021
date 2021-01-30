@@ -53,6 +53,7 @@ namespace PlayerLogic
             {
                 if (debug) Debug.Log("player cling key pressed.");
                 pl.ClingKeyPressed = true;
+                //pl.Cling();
             }
 
             if (Input.GetKeyDown(LeftMoveKeyCode))
@@ -60,6 +61,14 @@ namespace PlayerLogic
                 if (debug) Debug.Log("player ← move key pressed.");
                 pl.FaceTo(PlayerDirection.Left);
                 // todo is this necessar? did I have a problem with flipX?...
+                //I wanted to add a simple Rush and Climb hit detection as children, 
+                //so I made this as a test to see how I could implement it quickly. 
+
+                //I was going to take advantage of the fact that changing the angle of the player also moves the child data,
+                // but I'll try other methods.
+
+                //I'm sorry I changed it without reporting it.
+                //Assy
                 //pl.PlayerAngleChangeLeft();
                 pl.MoveKeyPressed = true; // trigger movement
             }
@@ -81,7 +90,7 @@ namespace PlayerLogic
             if (Input.GetKeyUp(RightMoveKeyCode)) pl.MoveKeyPressed = false;
             if (Input.GetKeyUp(JumpKeyCode)) pl.JumpKeyPressed = false;
             if (Input.GetKeyUp(ShootKeyCode)) pl.ShootKeyPressed = false;
-            if (Input.GetKeyUp(ClingKeyCode)) pl.ClingKeyPressed = false;
+            if (Input.GetKeyUp(ClingKeyCode)) pl.ClingKeyPressed = false; pl.ClingOff(); ;
         }
     }
 }

@@ -91,8 +91,11 @@ namespace PlayerLogic
             bulletManager = GetComponent<PlayerAttack>();
             spawn = GetComponent<PlayerSpawn>();
 
-            rushHitCheck = GetComponent<RushHitCheck>();
-        }
+            rushHitCheck = transform.GetChild(0).GetComponent<RushHitCheck>();
+
+            clingHitCheck = transform.GetChild(0).GetComponent<ClingHitCheck>();
+
+    }
 
         private void Start()
         {
@@ -101,6 +104,10 @@ namespace PlayerLogic
 
         private void Update()
         {
+
+            // pressing the Cling key.
+            if (ClingKeyPressed) { Cling(); return; } ;
+
             // shoot if key is continuously pressed
             if (ShootKeyPressed) Shoot();
 
@@ -201,12 +208,38 @@ namespace PlayerLogic
 
         public void Cling()
         {
+            return;
             if (!enableCling) return;
+
             // attach to wall, cannot move, can jump
             // todo Lingxiao
+            Debug.Log("ClingON");
+            rb.isKinematic = false;
+            //rb stop
+            Vector2 _vel = rb.velocity;
+            _vel.y = 0;
+            rb.velocity = _vel;
+
+            //And pressing the JumpKey
+            if (JumpKeyPressed)
+            {
+                //Sample Up Move
+                transform.position += Vector3.up;
+            }
+    }
+        public void ClingOff()
+        {
+            return;
+            if (!enableCling) return;
+
+            // attach to wall, cannot move, can jump
+            // todo Lingxiao
+            Debug.Log("ClingOff");
+            //rb ReStart
+            rb.isKinematic = true;
         }
 
-        public void Spwan()
+    public void Spwan()
         {
             // player dies and respawn
         }

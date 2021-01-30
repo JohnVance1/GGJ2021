@@ -59,7 +59,7 @@ namespace EnemyLogic
         {
             int jumpAngle = Random.Range(30, 75);
             Vector2 jumpVector = Rotate(Vector2.up, direction * jumpAngle * Mathf.Deg2Rad);
-
+            Debug.Log(player.GetComponent<Player>().InAir);
             if (!jumping && CanJump() && (player.GetComponent<Player>().InAir))
             {
                 //yield return new WaitForSeconds(5.0f);
@@ -72,7 +72,6 @@ namespace EnemyLogic
 
             if (CanShoot())
             {
-
                 Vector3 pos = new Vector3(transform.position.x + (0.5f * direction), transform.position.y, transform.position.z);
 
                 GameObject bullet = Instantiate(enemyBullet, pos, Quaternion.identity);

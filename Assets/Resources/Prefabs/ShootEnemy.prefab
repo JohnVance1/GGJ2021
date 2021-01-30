@@ -144,5 +144,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2489bcf9ffb90a46bb58f3998680b5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
+  player: {fileID: 6308614766986943330, guid: 693115183c0474eb9b73b809e4ee91be, type: 3}
   moveSpeed: 0.01
+  enemyBullet: {fileID: 7269840614623841088, guid: c4f318856d7ebfc408f3c8adefb3b73e, type: 3}

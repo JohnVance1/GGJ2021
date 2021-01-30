@@ -2,6 +2,7 @@
 // @author Lingxiao, Assy
 
 using UnityEngine;
+using EnemyLogic;
 
 namespace PlayerLogic
 {
@@ -56,16 +57,19 @@ namespace PlayerLogic
         // rush
         public bool enableRush;
         public bool InRush { get; private set; }
+        private RushHitCheck rushHitCheck;
         // attack
         public bool enableShoot;
         private PlayerAttack bulletManager;
         // cling
         public bool enableCling;
+        private ClingHitCheck clingHitCheck;
 
         // key press event
         public bool MoveKeyPressed { get; internal set; }
         public bool JumpKeyPressed { get; internal set; }
         public bool ShootKeyPressed { get; internal set; }
+        public bool ClingKeyPressed { get; internal set; }
 
         private Rigidbody2D rb;
         private SpriteRenderer render;
@@ -86,6 +90,8 @@ namespace PlayerLogic
 
             bulletManager = GetComponent<PlayerAttack>();
             spawn = GetComponent<PlayerSpawn>();
+
+            rushHitCheck = GetComponent<RushHitCheck>();
         }
 
         private void Start()
@@ -108,7 +114,6 @@ namespace PlayerLogic
 
             // update position
             pos += vel;
-
 
             transform.position = pos;
         }
@@ -183,12 +188,22 @@ namespace PlayerLogic
         {
             if (!enableRush) return;
             // be careful with collision detection
+            foreach (var HitEnemyObject in rushHitCheck.GetRushAreainEnemyObjects())
+            {
+                var enemybasic = HitEnemyObject.GetComponent<EnemyBasic>();
+                if (enemybasic != null)
+                {
+                    // todo enemy damage
+                    Debug.Log("Player hit enemy: " + enemybasic.name);
+                }
+            }
         }
 
         public void Cling()
         {
             if (!enableCling) return;
             // attach to wall, cannot move, can jump
+            // todo Lingxiao
         }
 
         public void Spwan()
@@ -289,16 +304,25 @@ namespace PlayerLogic
             }
             return false;
         }
-        #endregion
 
-        // debug raycast points
-        //private void OnDrawGizmos()
-        //{
-        //    Vector3 pos = transform.position;
-        //    Vector3 p1 = new Vector3(pos.x, pos.y - .4f, 0);
-        //    Vector3 p2 = new Vector3(pos.x, pos.y + .4f, 0);
-        //    Gizmos.DrawSphere(p1, .1f);
-        //    Gizmos.DrawSphere(p2, .1f);
-        //}
+        internal void PlayerAngleChangeLeft()
+        {
+            if (System.Math.Abs(transform.localRotation.y - 180) > .001f)
+            {
+                var ro = transform.localRotation;
+                ro.y = 180;
+                transform.localRotation = ro;
+            }
+        }
+        internal void PlayerAngleChangeRight()
+        {
+            if (System.Math.Abs(transform.localRotation.y) > .001f)
+            {
+                var ro = transform.localRotation;
+                ro.y = 0;
+                transform.localRotation = ro;
+            }
+        }
+        #endregion
     }
 }

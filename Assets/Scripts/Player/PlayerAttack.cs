@@ -5,12 +5,18 @@ namespace PlayerLogic
 {
     public class PlayerAttack : MonoBehaviour
     {
+        public bool debug = true;
+
         [SerializeField]
         GameObject setShootObject;
 
         public int CreateShootCount = 5;
         public float DefaultShootSpeed = 1.0f;
         public float DefaultShootTime = 1.0f;
+        //CoolDonwSetValue
+        public float SetShootCollDownTime = 0.1f;
+        //Main CoolDown Counter
+        private float ShootColllDownCounter;
 
         private readonly List<ShootData> ListShoot = new List<ShootData>();
 
@@ -58,12 +64,21 @@ namespace PlayerLogic
         // Update bullets status
         private void FixedUpdate()
         {
+            //CoolDowRecast
+            if (ShootColllDownCounter > 0)
+            {
+                ShootColllDownCounter -= Time.fixedDeltaTime;
+            }
+
             foreach (var data in ListShoot)
             {
                 if (data.shootHitCheck.HitFlag)
                 {
                     data.shootObject.SetActive(false);
                     data.shootNow = false;
+                    data.shootHitCheck.HitFlag = false;
+                    if (debug)
+                        Debug.Log("OtherObjectHit");
                     continue;
                 }
 
@@ -73,6 +88,8 @@ namespace PlayerLogic
                     {
                         data.shootObject.SetActive(false);
                         data.shootNow = false;
+                        if (debug)
+                            Debug.Log("AttackFalse");
                         continue;
                     }
 
@@ -95,8 +112,8 @@ namespace PlayerLogic
                     data.shootTime = DefaultShootTime;
                     data.shootObject.SetActive(true);
                     data.shootNow = true;
-
                     data.shootObject.GetComponent<SpriteRenderer>().flipX = data.moveVec.x < 0;
+                    ShootColllDownCounter = SetShootCollDownTime;
                     return;
                 }
             }

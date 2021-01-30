@@ -682,6 +682,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8350042712346294875, guid: 693115183c0474eb9b73b809e4ee91be, type: 3}
+      propertyPath: ClingSpeed
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8350042712346294875, guid: 693115183c0474eb9b73b809e4ee91be, type: 3}
       propertyPath: enableRush
       value: 1
       objectReference: {fileID: 0}

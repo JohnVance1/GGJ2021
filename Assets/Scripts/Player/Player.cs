@@ -120,11 +120,18 @@ namespace PlayerLogic
             // speed -> movement
             Vector3 pos = transform.position;
             Vector3 vel = new Vector3(Speed * Facing, 0, 0);
-
+            
             // update position
             pos += vel;
 
             transform.position = pos;
+
+            Vector2 m_Vec = new Vector2(Facing, 0.0f);
+
+            //Rush Cling Offset Change
+            rushHitCheck.ChangeOffset(m_Vec);
+            clingHitCheck.ChangeOffset(m_Vec);
+            
         }
         #endregion
 

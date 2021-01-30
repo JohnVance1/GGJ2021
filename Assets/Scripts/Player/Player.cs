@@ -105,7 +105,6 @@ namespace PlayerLogic
 
         private void Update()
         {
-
             // pressing the Cling key.
             if (ClingKeyPressed) { Cling(); return; }
             else if( rb.isKinematic == true) rb.isKinematic = false;
@@ -120,7 +119,7 @@ namespace PlayerLogic
             // speed -> movement
             Vector3 pos = transform.position;
             Vector3 vel = new Vector3(Speed * Facing, 0, 0);
-            
+
             // update position
             pos += vel;
 
@@ -131,7 +130,6 @@ namespace PlayerLogic
             //Rush Cling Offset Change
             rushHitCheck.ChangeOffset(m_Vec);
             clingHitCheck.ChangeOffset(m_Vec);
-            
         }
         #endregion
 
@@ -217,7 +215,6 @@ namespace PlayerLogic
 
         public void Cling()
         {
-
             if (!enableCling) return;
             if (!clingHitCheck.ClingFlag) return;
             // attach to wall, cannot move, can jump
@@ -239,7 +236,7 @@ namespace PlayerLogic
         }
         
 
-    public void Spwan()
+        public void Spwan()
         {
             // player dies and respawn
         }
@@ -272,7 +269,6 @@ namespace PlayerLogic
                 {
                     if (debug)
                         Debug.Log("Player leave ground.");
-
                     InAir = true;
                 }
             }

@@ -12,7 +12,6 @@ namespace PlayerLogic
         private readonly List<GameObject> ListRushAreaHitEnemyObjects = new List<GameObject>();
         //or
         //public List<EnemyBasic> ListEnemy = new List<EnemyBasic>();
-
         private BoxCollider2D r_bcoll;
 
         private void Awake()
@@ -38,7 +37,6 @@ namespace PlayerLogic
             }
         }
         
-
         private void OnTriggerEnter2D(Collider2D collision)
         {
             //if Hits Enemy Enter // now HitAllObject

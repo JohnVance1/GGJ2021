@@ -72,7 +72,7 @@ namespace PlayerLogic
                 ListShoot.Add(Data);
             }
         }
-
+      
         // Update bullets status
         private void FixedUpdate()
         {
@@ -107,7 +107,6 @@ namespace PlayerLogic
                     }
 
                     data.shootObject.transform.position += data.moveVec * data.moveSpeed;
-
                     data.shootTime -= Time.fixedDeltaTime;
                 }
             }

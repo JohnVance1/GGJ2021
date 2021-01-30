@@ -273,6 +273,12 @@ namespace PlayerLogic
             spawn.spawnPoint = transform.position;
         }
 
+        public void SaveSpawnPoint()
+        {
+            Debug.Log("Player save spawn point at: " + spawn.spawnPoint);
+            spawn.spawnPoint = transform.position;
+        }
+
         public void Spawn()
         {
             Debug.Log("Player respawn at: " + spawn.spawnPoint);
@@ -396,15 +402,5 @@ namespace PlayerLogic
             return false;
         }
         #endregion
-
-        private void OnDrawGizmos()
-        {
-            Vector2 dir = Facing > 0 ? Vector2.right : Vector2.left;
-            Vector3 p0 = transform.position;
-            Vector3 p1 = new Vector3(p0.x + dir.x * moveSpeed * 2, p0.y - .4f, 0);
-            Vector3 p2 = new Vector3(p0.x + dir.x * moveSpeed * 2, p0.y + .4f, 0);
-            Gizmos.DrawSphere(p1, .1f);
-            Gizmos.DrawSphere(p2, .1f);
-        }
     }
 }

@@ -64,6 +64,7 @@ namespace PlayerLogic
         // cling
         public bool enableCling;
         private ClingHitCheck clingHitCheck;
+        public float ClingSpeed = 1.0f;
 
         // key press event
         public bool MoveKeyPressed { get; internal set; }
@@ -91,8 +92,11 @@ namespace PlayerLogic
             bulletManager = GetComponent<PlayerAttack>();
             spawn = GetComponent<PlayerSpawn>();
 
-            rushHitCheck = GetComponent<RushHitCheck>();
-        }
+            rushHitCheck = transform.GetChild(0).GetComponent<RushHitCheck>();
+
+            clingHitCheck = transform.GetChild(1).GetComponent<ClingHitCheck>();
+
+    }
 
         private void Start()
         {
@@ -101,6 +105,10 @@ namespace PlayerLogic
 
         private void Update()
         {
+            // pressing the Cling key.
+            if (ClingKeyPressed) { Cling(); return; }
+            else if( rb.isKinematic == true) rb.isKinematic = false;
+
             // shoot if key is continuously pressed
             if (ShootKeyPressed) Shoot();
 
@@ -116,6 +124,12 @@ namespace PlayerLogic
             pos += vel;
 
             transform.position = pos;
+
+            Vector2 m_Vec = new Vector2(Facing, 0.0f);
+
+            //Rush Cling Offset Change
+            rushHitCheck.ChangeOffset(m_Vec);
+            clingHitCheck.ChangeOffset(m_Vec);
         }
         #endregion
 
@@ -202,9 +216,25 @@ namespace PlayerLogic
         public void Cling()
         {
             if (!enableCling) return;
+            if (!clingHitCheck.ClingFlag) return;
             // attach to wall, cannot move, can jump
             // todo Lingxiao
+
+            rb.isKinematic = true;
+            //rb stop
+            Vector2 _vel = rb.velocity;
+            _vel.y = 0;
+            rb.velocity = _vel;
+
+            //And pressing the JumpKey
+            if (JumpKeyPressed)
+            {
+                //Sample Up Move
+                Debug.Log("ClingUp!");
+                transform.position += new Vector3(0.0f, ClingSpeed, 0.0f);
+            }
         }
+        
 
         public void Spwan()
         {
@@ -239,10 +269,8 @@ namespace PlayerLogic
                 {
                     if (debug)
                         Debug.Log("Player leave ground.");
-
+                    InAir = true;
                 }
-                InAir = true;
-
             }
         }
 

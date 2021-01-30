@@ -12,11 +12,31 @@ namespace PlayerLogic
         private readonly List<GameObject> ListRushAreaHitEnemyObjects = new List<GameObject>();
         //or
         //public List<EnemyBasic> ListEnemy = new List<EnemyBasic>();
+        private BoxCollider2D r_bcoll;
+
+        private void Awake()
+        {
+            r_bcoll = GetComponent<BoxCollider2D>();
+        }
+
         public List<GameObject> GetRushAreainEnemyObjects()
         {
             return ListRushAreaHitEnemyObjects;
         }
 
+        //RushArea AngleChange
+        public void ChangeOffset(Vector2 _moveVec)
+        {
+            if (r_bcoll .offset.x< 0 && _moveVec.x >0)
+            {
+                r_bcoll.offset = -r_bcoll.offset;
+            }
+            else if (r_bcoll.offset.x > 0 && _moveVec.x < 0)
+            {
+                r_bcoll.offset = -r_bcoll.offset;
+            }
+        }
+        
         private void OnTriggerEnter2D(Collider2D collision)
         {
             //if Hits Enemy Enter // now HitAllObject

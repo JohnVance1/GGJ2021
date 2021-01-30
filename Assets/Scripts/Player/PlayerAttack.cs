@@ -42,6 +42,10 @@ namespace PlayerLogic
         // Prepare all bullets and reuse them
         private void Awake()
         {
+            ShootColllDownCounter = SetShootCollDownTime;
+            
+
+
             for (int i = 0; i < CreateShootCount; i++)
             {
                 ShootData Data = new ShootData
@@ -55,19 +59,28 @@ namespace PlayerLogic
                 };
 
                 Data.shootHitCheck = Data.shootObject.GetComponent<ShootHitCheck>();
+
+                var b_rb = Data.shootObject.GetComponent<Rigidbody2D>();
+
+                b_rb.constraints = RigidbodyConstraints2D.FreezePositionY;
+                b_rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+
+                b_rb.gravityScale = 0.0f;
+
                 Data.shootObject.SetActive(false);
 
                 ListShoot.Add(Data);
             }
         }
-
+      
         // Update bullets status
         private void FixedUpdate()
         {
             //CoolDowRecast
-            if (ShootColllDownCounter > 0)
+            if (ShootColllDownCounter >= 0)
             {
                 ShootColllDownCounter -= Time.fixedDeltaTime;
+                Debug.Log(ShootColllDownCounter);
             }
 
             foreach (var data in ListShoot)
@@ -102,11 +115,18 @@ namespace PlayerLogic
         // Shoot a bullet
         public void ShootStart(Vector3 _startPositon, Vector2 _moveVec)
         {
+            if (ShootColllDownCounter > 0)
+            {
+                return;
+            }
+
             foreach (var data in ListShoot)
             {
                 if (data.shootNow == false)
                 {
-                    data.shootObject.transform.position = _startPositon;
+                    Vector3 _startOffset = (Vector3.one * _moveVec) / 5;
+                    //_startOffset.y = 0;
+                    data.shootObject.transform.position = _startPositon + _startOffset;
                     data.moveVec = _moveVec;
                     data.moveSpeed = DefaultShootSpeed;
                     data.shootTime = DefaultShootTime;

@@ -11,7 +11,23 @@ namespace PlayerLogic
         // todo this should check what it hits: player? enemy? wall?
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            HitFlag = true;
+            if (/*!collision.gameObject.CompareTag("Player") &&*/ 
+                !collision.gameObject.CompareTag("PlayerArea")  
+                /*&& !collision.gameObject.CompareTag("Bullet")*/)
+            {
+                HitFlag = true;
+            }
         }
+
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            if (/*!collision.gameObject.CompareTag("Player") && */ 
+                !collision.gameObject.CompareTag("PlayerArea") 
+                /*&& !collision.gameObject.CompareTag("Bullet") */)
+            {
+                HitFlag = true;
+            }
+        }
+
     }
 }

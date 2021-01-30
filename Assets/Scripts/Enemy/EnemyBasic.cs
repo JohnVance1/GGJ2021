@@ -18,6 +18,8 @@ namespace EnemyLogic
         protected float moveSpeed;
         protected int health;
         protected bool isAlive;
+
+        Vector3 InitPosition = Vector3.zero;//Shion :Return to this position when you fall into the hole.
         #endregion
 
 
@@ -33,8 +35,10 @@ namespace EnemyLogic
             debugSprite = GetComponent<SpriteRenderer>();
             direction = 1;
             RandomDirection();
-            moveSpeed = 0.01f;
+            //moveSpeed = 0.01f;
             isAlive = true;
+
+            InitPosition = transform.position;
         }
 
         public void Update()
@@ -152,7 +156,6 @@ namespace EnemyLogic
             if(!isAlive)
             {
                 Destroy(gameObject);
-
             }
 
         }
@@ -167,6 +170,13 @@ namespace EnemyLogic
             if (collision.gameObject.CompareTag("Projectile"))
             {
                 DecreaseHealth();
+            }
+
+            //Author Shion
+            //
+            if (collision.gameObject.CompareTag("PitFall")) {
+                DecreaseHealth();
+                transform.position = InitPosition;
             }
         }
 

@@ -8,6 +8,8 @@ namespace MapLogic
         Transform trans;
         public float angle;
 
+        private float deleteTime = 2f;
+        private float nowTime = 0f;
         private void Awake()
         {
             trans = transform;
@@ -19,6 +21,8 @@ namespace MapLogic
             pos.x -= speed * Mathf.Cos(angle * Mathf.Deg2Rad) * Time.deltaTime;
             pos.y -= speed * Mathf.Sin(angle * Mathf.Deg2Rad) * Time.deltaTime;
             trans.position = pos;
+            nowTime += Time.deltaTime;
+            if(deleteTime<nowTime)Destroy(gameObject);
         }
 
         // fixme if it doesn't hit anything, it never destroys

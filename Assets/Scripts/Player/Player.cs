@@ -38,6 +38,12 @@ namespace PlayerLogic
         public float jumpForce = 200f;
 
         public bool debug = true;
+
+        //Shion--------------------------
+        public int InitHP = 3;//InitialHP
+        int nowHP = 0;
+
+        //-------------------------------
         #endregion
 
 
@@ -73,6 +79,10 @@ namespace PlayerLogic
         private Rigidbody2D rb;
         private SpriteRenderer render;
         private PlayerSpawn spawn;
+
+        //shion-------------------------
+        public bool isDamaged { get; private set; }
+        //------------------------------
         #endregion
 
 
@@ -90,6 +100,7 @@ namespace PlayerLogic
             bulletManager = GetComponent<PlayerAttack>();
             spawn = GetComponent<PlayerSpawn>();
 
+            nowHP = InitHP;
             rushHitCheck = GetComponentInChildren<RushHitCheck>();
         }
 
@@ -262,11 +273,20 @@ namespace PlayerLogic
             spawn.spawnPoint = transform.position;
         }
 
+        public void SaveSpawnPoint()
+        {
+            Debug.Log("Player save spawn point at: " + spawn.spawnPoint);
+            spawn.spawnPoint = transform.position;
+        }
+
         public void Spawn()
         {
             Debug.Log("Player respawn at: " + spawn.spawnPoint);
             // player dies and respawn
             transform.position = spawn.spawnPoint;
+
+            render.color = Color.white;
+            nowHP = InitHP;
         }
         #endregion
 
@@ -286,7 +306,21 @@ namespace PlayerLogic
                     jumpCount = 0;
                     Speed = 0;
                 }
+            } else if (collision.gameObject.CompareTag("Enemy")) {
+                if (debug) Debug.Log("Player hit Enemy.");
+                nowHP--;
+                isDamaged = true;
+                Color c = Color.white;
+                c.a = 0.5f;
+                render.color = c;
+                Invoke("waitHit", 1f);
+                if (nowHP <= 0) Spwan();
             }
+        }
+
+        void waitHit() {
+            render.color = Color.white;
+            isDamaged = false;
         }
 
         private void OnCollisionExit2D(Collision2D collision)
@@ -301,6 +335,8 @@ namespace PlayerLogic
                 }
             }
         }
+
+    
 
         //アイテム関連でトリガーを扱っているためここに書いています。
         //I'm writing this here because I'm dealing with triggers in an item-related way.
@@ -366,15 +402,5 @@ namespace PlayerLogic
             return false;
         }
         #endregion
-
-        private void OnDrawGizmos()
-        {
-            Vector2 dir = Facing > 0 ? Vector2.right : Vector2.left;
-            Vector3 p0 = transform.position;
-            Vector3 p1 = new Vector3(p0.x + dir.x * moveSpeed * 2, p0.y - .4f, 0);
-            Vector3 p2 = new Vector3(p0.x + dir.x * moveSpeed * 2, p0.y + .4f, 0);
-            Gizmos.DrawSphere(p1, .1f);
-            Gizmos.DrawSphere(p2, .1f);
-        }
     }
 }

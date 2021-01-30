@@ -63,8 +63,6 @@ namespace PlayerLogic
         private PlayerAttack bulletManager;
         // cling
         public bool enableCling;
-        private ClingHitCheck clingHitCheck;
-        public float ClingSpeed = 1.0f;
 
         // key press event
         public bool MoveKeyPressed { get; internal set; }
@@ -92,11 +90,8 @@ namespace PlayerLogic
             bulletManager = GetComponent<PlayerAttack>();
             spawn = GetComponent<PlayerSpawn>();
 
-            rushHitCheck = transform.GetChild(0).GetComponent<RushHitCheck>();
-
-            clingHitCheck = transform.GetChild(1).GetComponent<ClingHitCheck>();
-
-    }
+            rushHitCheck = GetComponentInChildren<RushHitCheck>();
+        }
 
         private void Start()
         {
@@ -105,9 +100,11 @@ namespace PlayerLogic
 
         private void Update()
         {
+            if (JumpKeyPressed) Jump();
+
             // pressing the Cling key.
             if (ClingKeyPressed) { Cling(); return; }
-            else if( rb.isKinematic == true) rb.isKinematic = false;
+            rb.isKinematic = false;
 
             // shoot if key is continuously pressed
             if (ShootKeyPressed) Shoot();
@@ -127,9 +124,8 @@ namespace PlayerLogic
 
             Vector2 m_Vec = new Vector2(Facing, 0.0f);
 
-            //Rush Cling Offset Change
+            //Rush Offset Change
             rushHitCheck.ChangeOffset(m_Vec);
-            clingHitCheck.ChangeOffset(m_Vec);
         }
         #endregion
 
@@ -153,7 +149,12 @@ namespace PlayerLogic
             Speed = moveSpeed;
 
             // prevent hit into wall
-            if (MoveIsBlocked) Speed = 0;
+            if (MoveIsBlocked)
+            {
+                if (debug)
+                    Debug.Log("Player is blocked.");
+                Speed = 0;
+            }
         }
 
         public void Jump()
@@ -164,6 +165,15 @@ namespace PlayerLogic
                 if (debug)
                     Debug.Log("Player jump.");
 
+                // cancel cling
+                if (rb.isKinematic)
+                {
+                    rb.isKinematic = false;
+                    ClingKeyPressed = false;
+                    // set speed to back
+                    rb.AddForce(new Vector2(-Facing, 0) * jumpForce * .05f);
+                }
+                // jump
                 rb.AddForce(Vector2.up * jumpForce);
                 jumpCount++;
                 return;
@@ -179,6 +189,15 @@ namespace PlayerLogic
                 vel.y = 0;
                 rb.velocity = vel;
 
+                // cancel cling
+                if (rb.isKinematic)
+                {
+                    rb.isKinematic = false;
+                    ClingKeyPressed = false;
+                    // set speed to back
+                    Speed = -moveSpeed;
+                }
+                // jump
                 rb.AddForce(Vector2.up * jumpForce);
                 jumpCount++;
                 return;
@@ -216,29 +235,38 @@ namespace PlayerLogic
         public void Cling()
         {
             if (!enableCling) return;
-            if (!clingHitCheck.ClingFlag) return;
+            // use ray cast to find the wall to cling, more reliable.
+            // if is blocked, it means player is next to a wall.
+            if (!MoveIsBlocked) return;
+
             // attach to wall, cannot move, can jump
-            // todo Lingxiao
-
-            rb.isKinematic = true;
-            //rb stop
-            Vector2 _vel = rb.velocity;
-            _vel.y = 0;
-            rb.velocity = _vel;
-
-            //And pressing the JumpKey
-            if (JumpKeyPressed)
+            if (!rb.isKinematic)
             {
-                //Sample Up Move
-                Debug.Log("ClingUp!");
-                transform.position += new Vector3(0.0f, ClingSpeed, 0.0f);
+                if (debug)
+                    Debug.Log("Player cling to wall.");
+
+                rb.isKinematic = true;
+                InAir = false;
+                jumpCount = 0;
+
+                //rb stop
+                Vector2 _vel = rb.velocity;
+                _vel.y = 0;
+                rb.velocity = _vel;
             }
         }
-        
 
-        public void Spwan()
+        public void SaveSpawnPoint()
         {
+            Debug.Log("Player save spawn point at: " + spawn.spawnPoint);
+            spawn.spawnPoint = transform.position;
+        }
+
+        public void Spawn()
+        {
+            Debug.Log("Player respawn at: " + spawn.spawnPoint);
             // player dies and respawn
+            transform.position = spawn.spawnPoint;
         }
         #endregion
 
@@ -277,12 +305,15 @@ namespace PlayerLogic
         //アイテム関連でトリガーを扱っているためここに書いています。
         //I'm writing this here because I'm dealing with triggers in an item-related way.
         //Author Shion
-        private void OnTriggerEnter2D(Collider2D trigger) {
+        private void OnTriggerEnter2D(Collider2D trigger)
+        {
             var obj = trigger.gameObject;
-            if (obj.CompareTag("Item")) {
+            if (obj.CompareTag("Item"))
+            {
                 var ITEMS = obj.GetComponent<ItemObjects>();
                 if (ITEMS == null) return;
-                switch (ITEMS.GetItemType()) {
+                switch (ITEMS.GetItemType())
+                {
                     case ItemType.Item_Jump:
                         enableJump = true;
                         break;
@@ -329,29 +360,21 @@ namespace PlayerLogic
         {
             foreach (ContactPoint2D contact in collision.contacts)
             {
-                if (contact.point.y - transform.position.y <= -.5) return true;
+                float offset = contact.point.y - transform.position.y;
+                if (offset <= -.5f && rb.velocity.y <= 0) return true;
             }
             return false;
         }
-
-        internal void PlayerAngleChangeLeft()
-        {
-            if (System.Math.Abs(transform.localRotation.y - 180) > .001f)
-            {
-                var ro = transform.localRotation;
-                ro.y = 180;
-                transform.localRotation = ro;
-            }
-        }
-        internal void PlayerAngleChangeRight()
-        {
-            if (System.Math.Abs(transform.localRotation.y) > .001f)
-            {
-                var ro = transform.localRotation;
-                ro.y = 0;
-                transform.localRotation = ro;
-            }
-        }
         #endregion
+
+        private void OnDrawGizmos()
+        {
+            Vector2 dir = Facing > 0 ? Vector2.right : Vector2.left;
+            Vector3 p0 = transform.position;
+            Vector3 p1 = new Vector3(p0.x + dir.x * moveSpeed * 2, p0.y - .4f, 0);
+            Vector3 p2 = new Vector3(p0.x + dir.x * moveSpeed * 2, p0.y + .4f, 0);
+            Gizmos.DrawSphere(p1, .1f);
+            Gizmos.DrawSphere(p2, .1f);
+        }
     }
 }

@@ -40,9 +40,6 @@ namespace PlayerLogic
             if (Input.GetKeyDown(JumpKeyCode))
             {
                 if (debug) Debug.Log("player jump key pressed.");
-                pl.Jump();
-                //I added it because I want the Jump key input state.
-                //Assy
                 pl.JumpKeyPressed = true;
             }
 
@@ -56,14 +53,12 @@ namespace PlayerLogic
             {
                 if (debug) Debug.Log("player cling key pressed.");
                 pl.ClingKeyPressed = true;
-                //pl.Cling();
             }
 
             if (Input.GetKeyDown(LeftMoveKeyCode))
             {
                 if (debug) Debug.Log("player ← move key pressed.");
                 pl.FaceTo(PlayerDirection.Left);
-                //pl.PlayerAngleChangeLeft();
                 pl.MoveKeyPressed = true; // trigger movement
             }
 
@@ -71,7 +66,6 @@ namespace PlayerLogic
             {
                 if (debug) Debug.Log("player → move key pressed.");
                 pl.FaceTo(PlayerDirection.Right);
-                //pl.PlayerAngleChangeRight();
                 pl.MoveKeyPressed = true; // trigger movement
             }
         }

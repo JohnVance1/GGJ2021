@@ -267,11 +267,11 @@ namespace PlayerLogic
             }
         }
 
-        public void SaveSpawnPoint()
-        {
-            Debug.Log("Player save spawn point at: " + spawn.spawnPoint);
-            spawn.spawnPoint = transform.position;
-        }
+        //public void SaveSpawnPoint()
+        //{
+        //    Debug.Log("Player save spawn point at: " + spawn.spawnPoint);
+        //    spawn.spawnPoint = transform.position;
+        //}
 
         public void SaveSpawnPoint()
         {
@@ -314,7 +314,7 @@ namespace PlayerLogic
                 c.a = 0.5f;
                 render.color = c;
                 Invoke("waitHit", 1f);
-                if (nowHP <= 0) Spwan();
+                if (nowHP <= 0) Spawn();
             }
         }
 

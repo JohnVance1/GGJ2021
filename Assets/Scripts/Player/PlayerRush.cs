@@ -28,7 +28,8 @@ public class PlayerRush : MonoBehaviour
         rigidbody2D = GetComponent<Rigidbody2D>();
     }
 
-    public void Update()
+
+    private void FixedUpdate()
     {
 
         if (RushFlag)
@@ -36,6 +37,9 @@ public class PlayerRush : MonoBehaviour
             transform.position += Vector3.right * RushSpeed;
         }
     }
+    /// <summary>
+    /// Running a rush
+    /// </summary>
     public void PushMoveStart()
     {
         if (RushFlag) return;

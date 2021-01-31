@@ -9,6 +9,8 @@ namespace MapLogic
         public float speed = .001f;
         public bool debug = true;
 
+        public Vector2 vel;
+
         // current waypoint index
         private int idx = 0;
         // current move progress
@@ -24,13 +26,14 @@ namespace MapLogic
                 transform.position = waypoints[0];
         }
 
-        private void Update()
+        private void FixedUpdate()
         {
             if (waypoints == null || waypoints.Length <= 1) return;
 
             // loop between waypoints
             Vector3 target = waypoints[idx];
             Vector3 pos = transform.position;
+
             // if is close
             if (Vector3.Distance(target, pos) < .01f)
             {
@@ -43,6 +46,8 @@ namespace MapLogic
             {
                 t = (t + speed) % 1f;
                 transform.position = Vector3.Lerp(pos, target, t);
+
+                vel = transform.position - pos;
             }
         }
 

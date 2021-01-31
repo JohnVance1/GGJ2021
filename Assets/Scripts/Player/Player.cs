@@ -70,6 +70,8 @@ namespace PlayerLogic
         public bool enableRush;
         public bool InRush { get; private set; }
         private RushHitCheck rushHitCheck;
+        private PlayerRush playerRush;
+        public float RushTime;
         // attack
         public bool enableShoot;
         private PlayerAttack bulletManager;
@@ -81,6 +83,7 @@ namespace PlayerLogic
         public bool JumpKeyPressed { get; internal set; }
         public bool ShootKeyPressed { get; internal set; }
         public bool ClingKeyPressed { get; internal set; }
+        public bool RushKeyPressed { get; internal set; }
 
         private Rigidbody2D rb;
         private SpriteRenderer render;
@@ -127,7 +130,7 @@ namespace PlayerLogic
 
             // pressing the Cling key.
             if (ClingKeyPressed) { Cling(); return; }
-            rb.isKinematic = false;
+            else rb.isKinematic = false;
 
             // shoot if key is continuously pressed
             if (ShootKeyPressed) Shoot();
@@ -135,6 +138,9 @@ namespace PlayerLogic
             // apply velocity, update position
             if (MoveKeyPressed) SetSpeed();
             else Speed = 0;
+            
+            // rush pressed
+            if (RushKeyPressed) Rush();
 
             // speed -> movement
             Vector3 pos = transform.position;
@@ -183,7 +189,7 @@ namespace PlayerLogic
         public void Jump()
         {
             // basic jump
-            if (CanJump)
+            if (CanJump && jumpCount == 0)
             {
                 if (debug)
                     Debug.Log("Player jump.");
@@ -199,11 +205,13 @@ namespace PlayerLogic
                 // jump
                 rb.AddForce(Vector2.up * jumpForce);
                 jumpCount++;
+                //jumpFlagOff
+                JumpKeyPressed = false;
                 return;
             }
 
             // double jump
-            if (CanDoubleJump)
+            if (CanDoubleJump && jumpCount == 1)
             {
                 if (debug)
                     Debug.Log("Player double jump.");
@@ -215,6 +223,7 @@ namespace PlayerLogic
                 // jump
                 rb.AddForce(Vector2.up * jumpForce);
                 jumpCount++;
+                //jumpFlagOff
                 return;
             }
         }
@@ -236,6 +245,13 @@ namespace PlayerLogic
         {
             if (!enableRush) return;
             // be careful with collision detection
+               
+            if(!InRush) return;
+
+            RushKeyPressed = false;
+
+            playerRush.PushMoveStart();
+
             foreach (var HitEnemyObject in rushHitCheck.GetRushAreainEnemyObjects())
             {
                 var enemybasic = HitEnemyObject.GetComponent<EnemyBasic>();

@@ -16,18 +16,12 @@ namespace PlayerLogic
     {
         public static int ToFacing(this PlayerDirection dir)
         {
-            //return dir switch
-            //{
-            //    PlayerDirection.Left => -1,
-            //    PlayerDirection.Right => 1,
-            //    _ => 0,
-            //};
-            switch (dir)
+            return dir switch
             {
-                case PlayerDirection.Left: return -1;
-                case PlayerDirection.Right: return 1;
-                default: return 0;
-            }
+                PlayerDirection.Left => -1,
+                PlayerDirection.Right => 1,
+                _ => 0,
+            };
         }
     }
     #endregion
@@ -43,13 +37,7 @@ namespace PlayerLogic
         [Min(0)]
         public float jumpForce = 200f;
 
-        // Freeze when player adjust key slots on UI
-        public bool freeze;
         public bool debug = true;
-
-        [Min(0)]
-        public int MaxSlots = 1;
-        public int SlotCount { get; private set; }
 
         //Shion--------------------------
         public int InitHP = 3;//InitialHP
@@ -94,7 +82,6 @@ namespace PlayerLogic
         private Rigidbody2D rb;
         private SpriteRenderer render;
         private PlayerSpawn spawn;
-        public InputListener Input { get; private set; }
 
         // sound
         private AudioSource audioSource;
@@ -124,12 +111,10 @@ namespace PlayerLogic
 
             bulletManager = GetComponent<PlayerAttack>();
             spawn = GetComponent<PlayerSpawn>();
-            Input = GetComponent<InputListener>();
 
             nowHP = InitHP;
             rushHitCheck = GetComponentInChildren<RushHitCheck>();
-
-            UpdateSlotCount();
+            playerRush = GetComponent<PlayerRush>();
         }
 
         private void Start()
@@ -138,11 +123,12 @@ namespace PlayerLogic
             audioSource.PlayOneShot(BGM);
         }
 
-        private void Update()
+        private void FixedUpdate()
         {
-            if (freeze) return;
-
+        
             if (JumpKeyPressed) Jump();
+
+            Debug.Log(MoveIsBlocked);
 
             // pressing the Cling key.
             if (ClingKeyPressed) { Cling(); return; }
@@ -205,7 +191,7 @@ namespace PlayerLogic
         public void Jump()
         {
             // basic jump
-            if (CanJump && jumpCount == 0)
+            if (CanJump)
             {
                 if (debug)
                     Debug.Log("Player jump.");
@@ -227,7 +213,7 @@ namespace PlayerLogic
             }
 
             // double jump
-            if (CanDoubleJump && jumpCount == 1)
+            if (CanDoubleJump)
             {
                 if (debug)
                     Debug.Log("Player double jump.");
@@ -236,6 +222,14 @@ namespace PlayerLogic
                 vel.y = 0;
                 rb.velocity = vel;
 
+                // cancel cling
+                if (rb.isKinematic)
+                {
+                    rb.isKinematic = false;
+                    ClingKeyPressed = false;
+                    // set speed to back
+                    Speed = -moveSpeed;
+                }
                 // jump
                 rb.AddForce(Vector2.up * jumpForce);
                 jumpCount++;
@@ -261,12 +255,12 @@ namespace PlayerLogic
         {
             if (!enableRush) return;
             // be careful with collision detection
-               
-            if(!InRush) return;
+            //no use?   
+            //if(!InRush) return;
 
             RushKeyPressed = false;
 
-            playerRush.PushMoveStart();
+            playerRush.PushMoveStart(Facing);
 
             foreach (var HitEnemyObject in rushHitCheck.GetRushAreainEnemyObjects())
             {
@@ -281,10 +275,12 @@ namespace PlayerLogic
 
         public void Cling()
         {
+            Debug.Log("Cling");
             if (!enableCling) return;
+            Debug.Log("enableCling true");
             // use ray cast to find the wall to cling, more reliable.
             // if is blocked, it means player is next to a wall.
-            if (!MoveIsBlocked) return;
+            if (!MoveIsBlocked){ if (debug) { Debug.Log("MoveIsBlocked!"); } return; };
 
             // attach to wall, cannot move, can jump
             if (!rb.isKinematic)
@@ -293,6 +289,7 @@ namespace PlayerLogic
                     Debug.Log("Player cling to wall.");
 
                 rb.isKinematic = true;
+               
                 InAir = false;
                 jumpCount = 0;
 
@@ -302,6 +299,12 @@ namespace PlayerLogic
                 rb.velocity = _vel;
             }
         }
+
+        //public void SaveSpawnPoint()
+        //{
+        //    Debug.Log("Player save spawn point at: " + spawn.spawnPoint);
+        //    spawn.spawnPoint = transform.position;
+        //}
 
         public void SaveSpawnPoint()
         {
@@ -349,6 +352,11 @@ namespace PlayerLogic
             }
         }
 
+        void waitHit() {
+            render.color = Color.white;
+            isDamaged = false;
+        }
+
         private void OnCollisionExit2D(Collision2D collision)
         {
             if (collision.gameObject.CompareTag("Block"))
@@ -362,6 +370,8 @@ namespace PlayerLogic
             }
         }
 
+    
+
         //アイテム関連でトリガーを扱っているためここに書いています。
         //I'm writing this here because I'm dealing with triggers in an item-related way.
         //Author Shion
@@ -370,15 +380,9 @@ namespace PlayerLogic
             var obj = trigger.gameObject;
             if (obj.CompareTag("Item"))
             {
-                var item = obj.GetComponent<ItemObjects>();
-                if (item == null) return;
-                if (SlotCount >= MaxSlots && item.GetItemType() != ItemType.Item_SlotAdd)
-                {
-                    Debug.Log("Player slots are full. Can not pick up new item.");
-                    return;
-                }
-
-                switch (item.GetItemType())
+                var ITEMS = obj.GetComponent<ItemObjects>();
+                if (ITEMS == null) return;
+                switch (ITEMS.GetItemType())
                 {
                     case ItemType.Item_Jump:
                         enableJump = true;
@@ -397,13 +401,12 @@ namespace PlayerLogic
                         break;
                     case ItemType.Item_SlotAdd:
                         Debug.Log("Player add slot.");
-                        MaxSlots++;
                         break;
                 }
                 Destroy(obj);
-                UpdateSlotCount();
-                audioSource.PlayOneShot(keyCollect);
 
+                //UpdateSlotCount();
+                audioSource.PlayOneShot(keyCollect);
 
                 if (debug)
                     Debug.Log("Player & NPC are freezed when adjust key slots.");
@@ -429,9 +432,17 @@ namespace PlayerLogic
                 Vector3 p0 = transform.position;
                 Vector3 p1 = new Vector3(p0.x, p0.y - .4f, 0);
                 Vector3 p2 = new Vector3(p0.x, p0.y + .4f, 0);
-                RaycastHit2D hit1 = Physics2D.Raycast(p1, dir, moveSpeed * 2);
-                RaycastHit2D hit2 = Physics2D.Raycast(p2, dir, moveSpeed * 2);
-                return hit1.collider != null || hit2.collider != null;
+                RaycastHit2D hit1 = Physics2D.Raycast(p1, dir, moveSpeed * 6);
+                RaycastHit2D hit2 = Physics2D.Raycast(p2, dir, moveSpeed * 6);
+                //Because even item objects were detected as hits.
+                //I'll make it a condition that if the tag name (Block) is hit.
+                   
+                if (hit1.collider != null) return hit1.collider.CompareTag("Block");
+
+                if (hit2.collider != null) return hit2.collider.CompareTag("Block");
+
+                return false;
+            
             }
         }
 
@@ -443,29 +454,6 @@ namespace PlayerLogic
                 if (offset <= -.5f && rb.velocity.y <= 0) return true;
             }
             return false;
-        }
-
-        public void Freeze()
-        {
-            freeze = true;
-            Input.freeze = true;
-        }
-
-        public void Resume()
-        {
-            freeze = false;
-            Input.freeze = false;
-        }
-
-        public void UpdateSlotCount()
-        {
-            SlotCount = 0;
-            if (enableRightMove) SlotCount ++;
-            if (enableLeftMove) SlotCount++;
-            if (enableJump || enableDoubleJump) SlotCount++;
-            if (enableRush) SlotCount++;
-            if (enableShoot) SlotCount++;
-            if (enableCling) SlotCount++;
         }
         #endregion
     }

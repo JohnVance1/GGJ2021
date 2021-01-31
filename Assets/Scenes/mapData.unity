@@ -50634,6 +50634,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RushSpeed: 0.01
-  CreateAfterimageWaitTime: 10
+  CreateAfterimageWaitTime: 0.1
   CreateAfterimageCount: 3
   RushFlag: 0

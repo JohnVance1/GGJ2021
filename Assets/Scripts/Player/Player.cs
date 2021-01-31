@@ -348,6 +348,18 @@ namespace PlayerLogic
             }
         }
 
+        //private void OnCollisionStay2D(Collision2D collision)
+        //{
+        //    // add friction
+        //    if (collision.gameObject.CompareTag("Block"))
+        //    {
+        //        MapLogic.Moving box = collision.collider.GetComponent<MapLogic.Moving>();
+        //        if (box != null)
+        //            rb.AddForce(box.vel);
+        //        Debug.Log("velocity of block: " + box.vel);
+        //    }
+        //}
+
         private void OnCollisionExit2D(Collision2D collision)
         {
             if (collision.gameObject.CompareTag("Block"))

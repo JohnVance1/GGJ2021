@@ -428,6 +428,12 @@ namespace PlayerLogic
             render.color = Color.white;
             isDamaged = false;
         }
+
+        private void WaitHit()
+        {
+            render.color = Color.white;
+            isDamaged = false;
+        }
         #endregion
 
 

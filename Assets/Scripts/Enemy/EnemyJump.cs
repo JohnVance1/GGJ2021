@@ -70,7 +70,7 @@ namespace EnemyLogic
             if (collision.gameObject.CompareTag("Block"))
             {
                 jumping = false;
-                
+
             }
 
         }

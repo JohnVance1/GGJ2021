@@ -96,6 +96,13 @@ namespace PlayerLogic
         private PlayerSpawn spawn;
         public InputListener Input { get; private set; }
 
+        // sound
+        private AudioSource audioSource;
+        public AudioClip BGM;
+        public AudioClip hit;
+        public AudioClip keyCollect;
+
+
         //shion-------------------------
         public bool isDamaged { get; private set; }
         //------------------------------
@@ -110,6 +117,8 @@ namespace PlayerLogic
             Facing = 1;
             Speed = 0;
 
+            audioSource = GetComponent<AudioSource>();
+
             rb = GetComponent<Rigidbody2D>();
             render = GetComponent<SpriteRenderer>();
 
@@ -120,14 +129,13 @@ namespace PlayerLogic
             nowHP = InitHP;
             rushHitCheck = GetComponentInChildren<RushHitCheck>();
 
-            playerRush = GetComponent<PlayerRush>();
-
             UpdateSlotCount();
         }
 
         private void Start()
         {
             spawn.spawnPoint = transform.position;
+            audioSource.PlayOneShot(BGM);
         }
 
         private void Update()
@@ -197,7 +205,7 @@ namespace PlayerLogic
         public void Jump()
         {
             // basic jump
-            if (CanJump)
+            if (CanJump && jumpCount == 0)
             {
                 if (debug)
                     Debug.Log("Player jump.");
@@ -219,7 +227,7 @@ namespace PlayerLogic
             }
 
             // double jump
-            if (CanDoubleJump)
+            if (CanDoubleJump && jumpCount == 1)
             {
                 if (debug)
                     Debug.Log("Player double jump.");
@@ -253,12 +261,12 @@ namespace PlayerLogic
         {
             if (!enableRush) return;
             // be careful with collision detection
-            //no use?   
-            //if(!InRush) return;
+               
+            if(!InRush) return;
 
             RushKeyPressed = false;
 
-            playerRush.PushMoveStart(Facing);
+            playerRush.PushMoveStart();
 
             foreach (var HitEnemyObject in rushHitCheck.GetRushAreainEnemyObjects())
             {
@@ -331,6 +339,7 @@ namespace PlayerLogic
             } else if (collision.gameObject.CompareTag("Enemy")) {
                 if (debug) Debug.Log("Player hit Enemy.");
                 nowHP--;
+                audioSource.PlayOneShot(hit);
                 isDamaged = true;
                 Color c = Color.white;
                 c.a = 0.5f;
@@ -393,11 +402,13 @@ namespace PlayerLogic
                 }
                 Destroy(obj);
                 UpdateSlotCount();
+                audioSource.PlayOneShot(keyCollect);
+
 
                 if (debug)
                     Debug.Log("Player & NPC are freezed when adjust key slots.");
-                Freeze();
-                EnemyBasic.FreezeEvent?.Invoke();
+                //Freeze();
+                //EnemyBasic.FreezeEvent?.Invoke();
 
                 if (debug)
                     Debug.Log("Bring up slot UI.");

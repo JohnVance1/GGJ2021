@@ -416,6 +416,11 @@ namespace PlayerLogic
                     Debug.Log("Bring up slot UI.");
                 UI.SlotUI.PickUpEvent?.Invoke(this);
             }
+
+            if (obj.CompareTag("CheckPoint"))
+            {
+                SaveSpawnPoint();
+            }
         }
 
         private void WaitHit()

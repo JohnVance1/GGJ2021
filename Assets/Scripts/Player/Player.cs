@@ -36,10 +36,11 @@ namespace PlayerLogic
         public float moveSpeed = .1f;
         [Min(0)]
         public float jumpForce = 200f;
+        [Min(0)]
+        public int MaxSlots = 1;
+        public int SlotCount { get; private set; }
 
         public bool debug = true;
-
-        private int SlotCount = 1;
 
         //Shion--------------------------
         public int InitHP = 3;//InitialHP

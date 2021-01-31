@@ -51,7 +51,7 @@ namespace UI
 
             if (debug)
                 Debug.Log("UI: Game resume.");
-            pl.Resume();
+            //pl.Resume();
             EnemyLogic.EnemyBasic.ResumeEvent?.Invoke();
         }
 

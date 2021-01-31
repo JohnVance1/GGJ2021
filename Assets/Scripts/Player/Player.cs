@@ -385,6 +385,11 @@ namespace PlayerLogic
             {
                 var ITEMS = obj.GetComponent<ItemObjects>();
                 if (ITEMS == null) return;
+                if (SlotCount >= MaxSlots)
+                {
+                    Debug.Log("Player slots are full.");
+;                   return;
+                }
                 switch (ITEMS.GetItemType())
                 {
                     case ItemType.Item_Jump:
@@ -408,7 +413,7 @@ namespace PlayerLogic
                 }
                 Destroy(obj);
 
-                //UpdateSlotCount();
+                UpdateSlotCount();
                 audioSource.PlayOneShot(keyCollect);
 
                 if (debug)

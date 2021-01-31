@@ -16,6 +16,8 @@ public class PlayerRush : MonoBehaviour
 
     public bool RushFlag = false;
 
+    private Vector3 moveVec;
+
     private List<GameObject> AfterimageObjects = new List<GameObject>();
 
     public void Awake()
@@ -30,7 +32,7 @@ public class PlayerRush : MonoBehaviour
 
         if (RushFlag)
         {
-            transform.position += Vector3.right * RushSpeed;
+            transform.position += moveVec * RushSpeed;
         }
     }
     /// <summary>
@@ -38,6 +40,19 @@ public class PlayerRush : MonoBehaviour
     /// </summary>
     public void PushMoveStart()
     {
+        moveVec = Vector3.right;
+        if (RushFlag) return;
+        StartCoroutine(CreateAfterimage());
+    }
+    public void PushMoveStart(Vector3 mVec)
+    {
+        moveVec = mVec;
+        if (RushFlag) return;
+        StartCoroutine(CreateAfterimage());
+    }
+    public void PushMoveStart(float mVec)
+    {
+        moveVec = new Vector3(mVec,0.0f,0.0f);
         if (RushFlag) return;
         StartCoroutine(CreateAfterimage());
     }

@@ -786,9 +786,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2769364410549055050, guid: b1adf35dc4281c5449894ade006fe274, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2769364410549055055, guid: b1adf35dc4281c5449894ade006fe274, type: 3}
       propertyPath: m_Name
       value: RushArea
+      objectReference: {fileID: 0}
+    - target: {fileID: 2769364410549055055, guid: b1adf35dc4281c5449894ade006fe274, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b1adf35dc4281c5449894ade006fe274, type: 3}
@@ -50352,7 +50360,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 0.01
-  jumpForce: 100
+  jumpForce: 350
   debug: 0
   InitHP: 3
   enableJump: 0
@@ -50625,9 +50633,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47999b6042556c04ab4685c43d7bdee8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AfterimageDestroyTime: 0.5
-  MaxRushTime: 2
   RushSpeed: 0.01
   CreateAfterimageWaitTime: 10
-  CreateAfterimageCount: 5
+  CreateAfterimageCount: 3
   RushFlag: 0

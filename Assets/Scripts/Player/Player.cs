@@ -128,7 +128,7 @@ namespace PlayerLogic
 
         private void FixedUpdate()
         {
-        
+
             if (JumpKeyPressed) Jump();
 
             Debug.Log(MoveIsBlocked);
@@ -143,7 +143,7 @@ namespace PlayerLogic
             // apply velocity, update position
             if (MoveKeyPressed) SetSpeed();
             else Speed = 0;
-            
+
             // rush pressed
             if (RushKeyPressed) Rush();
 
@@ -283,7 +283,7 @@ namespace PlayerLogic
             Debug.Log("enableCling true");
             // use ray cast to find the wall to cling, more reliable.
             // if is blocked, it means player is next to a wall.
-            if (!MoveIsBlocked){ if (debug) { Debug.Log("MoveIsBlocked!"); } return; };
+            if (!MoveIsBlocked) { if (debug) { Debug.Log("MoveIsBlocked!"); } return; };
 
             // attach to wall, cannot move, can jump
             if (!rb.isKinematic)
@@ -292,7 +292,7 @@ namespace PlayerLogic
                     Debug.Log("Player cling to wall.");
 
                 rb.isKinematic = true;
-               
+
                 InAir = false;
                 jumpCount = 0;
 
@@ -342,7 +342,9 @@ namespace PlayerLogic
                     jumpCount = 0;
                     Speed = 0;
                 }
-            } else if (collision.gameObject.CompareTag("Enemy")) {
+            }
+            else if (collision.gameObject.CompareTag("Enemy"))
+            {
                 if (debug) Debug.Log("Player hit Enemy.");
                 nowHP--;
                 audioSource.PlayOneShot(hit);
@@ -355,7 +357,8 @@ namespace PlayerLogic
             }
         }
 
-        void waitHit() {
+        void waitHit()
+        {
             render.color = Color.white;
             isDamaged = false;
         }
@@ -373,7 +376,7 @@ namespace PlayerLogic
             }
         }
 
-    
+
 
         //アイテム関連でトリガーを扱っているためここに書いています。
         //I'm writing this here because I'm dealing with triggers in an item-related way.
@@ -385,10 +388,10 @@ namespace PlayerLogic
             {
                 var ITEMS = obj.GetComponent<ItemObjects>();
                 if (ITEMS == null) return;
-                if (SlotCount >= MaxSlots)
+                if (SlotCount >= MaxSlots && ITEMS.GetItemType() != ItemType.Item_SlotAdd)
                 {
                     Debug.Log("Player slots are full.");
-;                   return;
+                    return;
                 }
                 switch (ITEMS.GetItemType())
                 {
@@ -409,6 +412,7 @@ namespace PlayerLogic
                         break;
                     case ItemType.Item_SlotAdd:
                         Debug.Log("Player add slot.");
+                        MaxSlots++;
                         break;
                 }
                 Destroy(obj);
@@ -444,13 +448,13 @@ namespace PlayerLogic
                 RaycastHit2D hit2 = Physics2D.Raycast(p2, dir, moveSpeed * 6);
                 //Because even item objects were detected as hits.
                 //I'll make it a condition that if the tag name (Block) is hit.
-                   
+
                 if (hit1.collider != null) return hit1.collider.CompareTag("Block");
 
                 if (hit2.collider != null) return hit2.collider.CompareTag("Block");
 
                 return false;
-            
+
             }
         }
 

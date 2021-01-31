@@ -271,11 +271,11 @@ namespace PlayerLogic
             }
         }
 
-        public void SaveSpawnPoint()
-        {
-            Debug.Log("Player save spawn point at: " + spawn.spawnPoint);
-            spawn.spawnPoint = transform.position;
-        }
+        //public void SaveSpawnPoint()
+        //{
+        //    Debug.Log("Player save spawn point at: " + spawn.spawnPoint);
+        //    spawn.spawnPoint = transform.position;
+        //}
 
         public void Spawn()
         {

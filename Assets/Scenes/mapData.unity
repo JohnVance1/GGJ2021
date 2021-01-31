@@ -50290,7 +50290,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 0.01
-  jumpForce: 500
+  jumpForce: 100
   debug: 0
   InitHP: 3
   enableJump: 0

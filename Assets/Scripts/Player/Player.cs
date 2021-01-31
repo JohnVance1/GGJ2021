@@ -36,6 +36,9 @@ namespace PlayerLogic
         public float moveSpeed = .1f;
         [Min(0)]
         public float jumpForce = 200f;
+        [Min(0)]
+        public int MaxSlots = 1;
+        public int SlotCount { get; private set; }
 
         public bool debug = true;
 
@@ -454,6 +457,17 @@ namespace PlayerLogic
                 if (offset <= -.5f && rb.velocity.y <= 0) return true;
             }
             return false;
+        }
+
+        public void UpdateSlotCount()
+        {
+            SlotCount = 0;
+            if (enableRightMove) SlotCount++;
+            if (enableLeftMove) SlotCount++;
+            if (enableJump || enableDoubleJump) SlotCount++;
+            if (enableRush) SlotCount++;
+            if (enableShoot) SlotCount++;
+            if (enableCling) SlotCount++;
         }
         #endregion
     }

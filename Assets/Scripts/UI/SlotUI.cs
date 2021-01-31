@@ -47,11 +47,11 @@ namespace UI
 
             if (debug)
                 Debug.Log("UI: Refresh text.");
-            slotText.text = "Player Empty Slots: " + (pl.MaxSlots - pl.SlotCount);
+            //slotText.text = "Player Empty Slots: " + (pl.MaxSlots - pl.SlotCount);
 
             if (debug)
                 Debug.Log("UI: Game resume.");
-            pl.Resume();
+            //pl.Resume();
             EnemyLogic.EnemyBasic.ResumeEvent?.Invoke();
         }
 

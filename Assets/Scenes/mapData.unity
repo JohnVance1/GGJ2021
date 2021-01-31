@@ -327,6 +327,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 6982288295873603704}
   moveSpeed: 0.001
+  freeze: 0
 --- !u!50 &11414597
 Rigidbody2D:
   serializedVersion: 4
@@ -555,6 +556,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 6982288295873603704}
   moveSpeed: 0.001
+  freeze: 0
 --- !u!50 &17694367
 Rigidbody2D:
   serializedVersion: 4
@@ -1299,6 +1301,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 6982288295873603704}
   moveSpeed: 0.001
+  freeze: 0
 --- !u!50 &153078718
 Rigidbody2D:
   serializedVersion: 4
@@ -3017,6 +3020,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 6982288295873603704}
   moveSpeed: 0.001
+  freeze: 0
 --- !u!50 &613921889
 Rigidbody2D:
   serializedVersion: 4
@@ -4457,6 +4461,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 6982288295873603704}
   moveSpeed: 0.001
+  freeze: 0
 --- !u!50 &879800583
 Rigidbody2D:
   serializedVersion: 4
@@ -5219,6 +5224,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 6982288295873603704}
   moveSpeed: 0.001
+  freeze: 0
 --- !u!50 &1038076740
 Rigidbody2D:
   serializedVersion: 4
@@ -6185,6 +6191,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 6982288295873603704}
   moveSpeed: 0.001
+  freeze: 0
 --- !u!50 &1416404526
 Rigidbody2D:
   serializedVersion: 4
@@ -6495,6 +6502,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 6982288295873603704}
   moveSpeed: 0.001
+  freeze: 0
 --- !u!50 &1417971346
 Rigidbody2D:
   serializedVersion: 4
@@ -7513,6 +7521,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 6982288295873603704}
   moveSpeed: 0.001
+  freeze: 0
 --- !u!50 &1532730950
 Rigidbody2D:
   serializedVersion: 4
@@ -7659,6 +7668,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 6982288295873603704}
   moveSpeed: 0.001
+  freeze: 0
 --- !u!50 &1542329193
 Rigidbody2D:
   serializedVersion: 4
@@ -8479,6 +8489,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 6982288295873603704}
   moveSpeed: 0.001
+  freeze: 0
 --- !u!50 &1597885195
 Rigidbody2D:
   serializedVersion: 4
@@ -8707,6 +8718,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 6982288295873603704}
   moveSpeed: 0.001
+  freeze: 0
 --- !u!50 &1643215924
 Rigidbody2D:
   serializedVersion: 4
@@ -9181,6 +9193,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 6982288295873603704}
   moveSpeed: 0.001
+  freeze: 0
 --- !u!50 &1723634403
 Rigidbody2D:
   serializedVersion: 4
@@ -9565,6 +9578,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 6982288295873603704}
   moveSpeed: 0.005
+  freeze: 0
 --- !u!50 &1826863156
 Rigidbody2D:
   serializedVersion: 4
@@ -10561,6 +10575,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 6982288295873603704}
   moveSpeed: 0.001
+  freeze: 0
 --- !u!50 &2055543660
 Rigidbody2D:
   serializedVersion: 4
@@ -10871,6 +10886,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 6982288295873603704}
   moveSpeed: 0.001
+  freeze: 0
 --- !u!50 &2076869015
 Rigidbody2D:
   serializedVersion: 4
@@ -11017,6 +11033,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 6982288295873603704}
   moveSpeed: 0.001
+  freeze: 0
 --- !u!50 &2077644557
 Rigidbody2D:
   serializedVersion: 4
@@ -11833,6 +11850,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 6982288295873603704}
   moveSpeed: 0.001
+  freeze: 0
 --- !u!1 &1586132691963917555
 GameObject:
   m_ObjectHideFlags: 0
@@ -46686,6 +46704,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04f4bfd7898464a7eb1b8c562a639ab3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  freeze: 0
   debug: 1
   LeftMoveKeyCode: 276
   RightMoveKeyCode: 275
@@ -46707,6 +46726,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 6982288295873603704}
   moveSpeed: 0.005
+  freeze: 0
 --- !u!61 &3593585441125591620
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -50359,7 +50379,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 397d861f60d1941cfb350c304e5319df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 0.025
+  moveSpeed: 0.05
   jumpForce: 350
   debug: 1
   InitHP: 3
@@ -50371,6 +50391,9 @@ MonoBehaviour:
   RushTime: 0
   enableShoot: 0
   enableCling: 0
+  BGM: {fileID: 0}
+  hit: {fileID: 0}
+  keyCollect: {fileID: 0}
 --- !u!114 &4345150851415472033
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -405,7 +405,7 @@ namespace PlayerLogic
                 }
                 Destroy(obj);
 
-                UpdateSlotCount();
+                //UpdateSlotCount();
                 audioSource.PlayOneShot(keyCollect);
 
                 if (debug)

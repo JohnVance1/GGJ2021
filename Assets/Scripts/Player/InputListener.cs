@@ -8,6 +8,7 @@ namespace PlayerLogic
     [RequireComponent(typeof(Player))]
     public class InputListener : MonoBehaviour
     {
+        public bool freeze;
         public bool debug = true;
 
         #region KeyPressCode
@@ -29,6 +30,7 @@ namespace PlayerLogic
 
         private void Update()
         {
+            if (freeze) return;
             KeyPress();
             KeyUp();
         }
@@ -57,6 +59,7 @@ namespace PlayerLogic
 
             if (Input.GetKeyDown(LeftMoveKeyCode))
             {
+                if (!pl.enableLeftMove) return;
                 if (debug) Debug.Log("player ← move key pressed.");
                 pl.FaceTo(PlayerDirection.Left);
                 pl.MoveKeyPressed = true; // trigger movement
@@ -64,6 +67,7 @@ namespace PlayerLogic
 
             if (Input.GetKeyDown(RightMoveKeyCode))
             {
+                if (!pl.enableRightMove) return;
                 if (debug) Debug.Log("player → move key pressed.");
                 pl.FaceTo(PlayerDirection.Right);
                 pl.MoveKeyPressed = true; // trigger movement

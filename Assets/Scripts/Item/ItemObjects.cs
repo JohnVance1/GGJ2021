@@ -6,6 +6,8 @@ public enum ItemType {
     Item_Rush = 3,
     Item_DoubleJump = 4,
     Item_SlotAdd = 5,
+    Item_Right = 6,
+    Item_Shoot = 7
 }
 public class ItemObjects : MonoBehaviour {
     [SerializeField] ItemType Type;//itemType

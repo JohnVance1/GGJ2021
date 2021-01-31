@@ -231,7 +231,7 @@ namespace PlayerLogic
                     rb.isKinematic = false;
                     ClingKeyPressed = false;
                     // set speed to back
-                    Speed = -moveSpeed;
+                    rb.AddForce(new Vector2(-Facing, 0) * jumpForce * .05f);
                 }
                 // jump
                 rb.AddForce(Vector2.up * jumpForce);
@@ -278,12 +278,11 @@ namespace PlayerLogic
 
         public void Cling()
         {
-            Debug.Log("Cling");
             if (!enableCling) return;
-            Debug.Log("enableCling true");
+
             // use ray cast to find the wall to cling, more reliable.
             // if is blocked, it means player is next to a wall.
-            if (!MoveIsBlocked) { if (debug) { Debug.Log("MoveIsBlocked!"); } return; };
+            if (!MoveIsBlocked) return;
 
             // attach to wall, cannot move, can jump
             if (!rb.isKinematic)
@@ -302,12 +301,6 @@ namespace PlayerLogic
                 rb.velocity = _vel;
             }
         }
-
-        //public void SaveSpawnPoint()
-        //{
-        //    Debug.Log("Player save spawn point at: " + spawn.spawnPoint);
-        //    spawn.spawnPoint = transform.position;
-        //}
 
         public void SaveSpawnPoint()
         {
@@ -355,12 +348,6 @@ namespace PlayerLogic
                 Invoke("waitHit", 1f);
                 if (nowHP <= 0) Spawn();
             }
-        }
-
-        void waitHit()
-        {
-            render.color = Color.white;
-            isDamaged = false;
         }
 
         private void OnCollisionExit2D(Collision2D collision)

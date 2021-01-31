@@ -64,6 +64,8 @@ namespace PlayerLogic
         public bool enableRush;
         public bool InRush { get; private set; }
         private RushHitCheck rushHitCheck;
+        private PlayerRush playerRush;
+        public float RushTime;
         // attack
         public bool enableShoot;
         private PlayerAttack bulletManager;
@@ -232,6 +234,11 @@ namespace PlayerLogic
         {
             if (!enableRush) return;
             // be careful with collision detection
+               
+            if(!InRush) return;
+
+            playerRush.PushMoveStart();
+
             foreach (var HitEnemyObject in rushHitCheck.GetRushAreainEnemyObjects())
             {
                 var enemybasic = HitEnemyObject.GetComponent<EnemyBasic>();

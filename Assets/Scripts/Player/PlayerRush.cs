@@ -7,7 +7,7 @@ namespace PlayerLogic
     {
         private SpriteRenderer spriteRenderer;
 
-        private Rigidbody2D rigidbody2D;
+        private Rigidbody2D rb;
 
         public float RushSpeed = 0.01f;
 
@@ -24,7 +24,7 @@ namespace PlayerLogic
         public void Awake()
         {
             spriteRenderer = GetComponent<SpriteRenderer>();
-            rigidbody2D = GetComponent<Rigidbody2D>();
+            rb = GetComponent<Rigidbody2D>();
         }
 
 
@@ -65,7 +65,7 @@ namespace PlayerLogic
 
             RushFlag = true;
 
-            rigidbody2D.constraints = RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezeRotation;
+            rb.constraints = RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezeRotation;
 
             while (true)
             {
@@ -105,7 +105,7 @@ namespace PlayerLogic
             }
             AfterimageObjects.Clear();
 
-            rigidbody2D.constraints = RigidbodyConstraints2D.FreezeRotation;
+            rb.constraints = RigidbodyConstraints2D.FreezeRotation;
 
             Debug.Log("RushEnd");
             RushFlag = false;

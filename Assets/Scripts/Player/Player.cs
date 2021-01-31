@@ -128,7 +128,7 @@ namespace PlayerLogic
 
         private void FixedUpdate()
         {
-        
+
             if (JumpKeyPressed) Jump();
 
             Debug.Log(MoveIsBlocked);
@@ -143,7 +143,7 @@ namespace PlayerLogic
             // apply velocity, update position
             if (MoveKeyPressed) SetSpeed();
             else Speed = 0;
-            
+
             // rush pressed
             if (RushKeyPressed) Rush();
 
@@ -231,7 +231,7 @@ namespace PlayerLogic
                     rb.isKinematic = false;
                     ClingKeyPressed = false;
                     // set speed to back
-                    Speed = -moveSpeed;
+                    rb.AddForce(new Vector2(-Facing, 0) * jumpForce * .05f);
                 }
                 // jump
                 rb.AddForce(Vector2.up * jumpForce);
@@ -278,12 +278,11 @@ namespace PlayerLogic
 
         public void Cling()
         {
-            Debug.Log("Cling");
             if (!enableCling) return;
-            Debug.Log("enableCling true");
+
             // use ray cast to find the wall to cling, more reliable.
             // if is blocked, it means player is next to a wall.
-            if (!MoveIsBlocked){ if (debug) { Debug.Log("MoveIsBlocked!"); } return; };
+            if (!MoveIsBlocked) return;
 
             // attach to wall, cannot move, can jump
             if (!rb.isKinematic)
@@ -292,7 +291,7 @@ namespace PlayerLogic
                     Debug.Log("Player cling to wall.");
 
                 rb.isKinematic = true;
-               
+
                 InAir = false;
                 jumpCount = 0;
 
@@ -302,12 +301,6 @@ namespace PlayerLogic
                 rb.velocity = _vel;
             }
         }
-
-        //public void SaveSpawnPoint()
-        //{
-        //    Debug.Log("Player save spawn point at: " + spawn.spawnPoint);
-        //    spawn.spawnPoint = transform.position;
-        //}
 
         public void SaveSpawnPoint()
         {
@@ -342,7 +335,9 @@ namespace PlayerLogic
                     jumpCount = 0;
                     Speed = 0;
                 }
-            } else if (collision.gameObject.CompareTag("Enemy")) {
+            }
+            else if (collision.gameObject.CompareTag("Enemy"))
+            {
                 if (debug) Debug.Log("Player hit Enemy.");
                 nowHP--;
                 audioSource.PlayOneShot(hit);
@@ -350,14 +345,9 @@ namespace PlayerLogic
                 Color c = Color.white;
                 c.a = 0.5f;
                 render.color = c;
-                Invoke("waitHit", 1f);
+                Invoke("WaitHit", 1f);
                 if (nowHP <= 0) Spawn();
             }
-        }
-
-        void waitHit() {
-            render.color = Color.white;
-            isDamaged = false;
         }
 
         private void OnCollisionExit2D(Collision2D collision)
@@ -373,7 +363,7 @@ namespace PlayerLogic
             }
         }
 
-    
+
 
         //アイテム関連でトリガーを扱っているためここに書いています。
         //I'm writing this here because I'm dealing with triggers in an item-related way.
@@ -385,6 +375,11 @@ namespace PlayerLogic
             {
                 var ITEMS = obj.GetComponent<ItemObjects>();
                 if (ITEMS == null) return;
+                if (SlotCount >= MaxSlots && ITEMS.GetItemType() != ItemType.Item_SlotAdd)
+                {
+                    Debug.Log("Player slots are full.");
+                    return;
+                }
                 switch (ITEMS.GetItemType())
                 {
                     case ItemType.Item_Jump:
@@ -404,11 +399,12 @@ namespace PlayerLogic
                         break;
                     case ItemType.Item_SlotAdd:
                         Debug.Log("Player add slot.");
+                        MaxSlots++;
                         break;
                 }
                 Destroy(obj);
 
-                //UpdateSlotCount();
+                UpdateSlotCount();
                 audioSource.PlayOneShot(keyCollect);
 
                 if (debug)
@@ -420,6 +416,12 @@ namespace PlayerLogic
                     Debug.Log("Bring up slot UI.");
                 UI.SlotUI.PickUpEvent?.Invoke(this);
             }
+        }
+
+        private void WaitHit()
+        {
+            render.color = Color.white;
+            isDamaged = false;
         }
         #endregion
 
@@ -439,13 +441,13 @@ namespace PlayerLogic
                 RaycastHit2D hit2 = Physics2D.Raycast(p2, dir, moveSpeed * 6);
                 //Because even item objects were detected as hits.
                 //I'll make it a condition that if the tag name (Block) is hit.
-                   
+
                 if (hit1.collider != null) return hit1.collider.CompareTag("Block");
 
                 if (hit2.collider != null) return hit2.collider.CompareTag("Block");
 
                 return false;
-            
+
             }
         }
 

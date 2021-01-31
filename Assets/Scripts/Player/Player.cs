@@ -123,7 +123,7 @@ namespace PlayerLogic
         private void Start()
         {
             spawn.spawnPoint = transform.position;
-            audioSource.PlayOneShot(BGM);
+            //audioSource.PlayOneShot(BGM);
         }
 
         private void FixedUpdate()

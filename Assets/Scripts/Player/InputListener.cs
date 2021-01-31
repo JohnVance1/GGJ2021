@@ -68,6 +68,11 @@ namespace PlayerLogic
                 pl.FaceTo(PlayerDirection.Right);
                 pl.MoveKeyPressed = true; // trigger movement
             }
+            if (Input.GetKeyDown(RushKeyCode))
+            {
+                if (debug) Debug.Log("player rush key pressed.");
+                pl.RushKeyPressed = true;
+            }
         }
 
         // listen to freely bind keycodes, set player status

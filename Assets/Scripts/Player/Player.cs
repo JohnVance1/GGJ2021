@@ -120,6 +120,8 @@ namespace PlayerLogic
             nowHP = InitHP;
             rushHitCheck = GetComponentInChildren<RushHitCheck>();
 
+            playerRush = GetComponent<PlayerRush>();
+
             UpdateSlotCount();
         }
 
@@ -195,7 +197,7 @@ namespace PlayerLogic
         public void Jump()
         {
             // basic jump
-            if (CanJump && jumpCount == 0)
+            if (CanJump)
             {
                 if (debug)
                     Debug.Log("Player jump.");
@@ -217,7 +219,7 @@ namespace PlayerLogic
             }
 
             // double jump
-            if (CanDoubleJump && jumpCount == 1)
+            if (CanDoubleJump)
             {
                 if (debug)
                     Debug.Log("Player double jump.");
@@ -251,12 +253,12 @@ namespace PlayerLogic
         {
             if (!enableRush) return;
             // be careful with collision detection
-               
-            if(!InRush) return;
+            //no use?   
+            //if(!InRush) return;
 
             RushKeyPressed = false;
 
-            playerRush.PushMoveStart();
+            playerRush.PushMoveStart(Facing);
 
             foreach (var HitEnemyObject in rushHitCheck.GetRushAreainEnemyObjects())
             {

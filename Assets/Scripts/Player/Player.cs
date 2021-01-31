@@ -345,7 +345,7 @@ namespace PlayerLogic
                 Color c = Color.white;
                 c.a = 0.5f;
                 render.color = c;
-                Invoke("waitHit", 1f);
+                Invoke("WaitHit", 1f);
                 if (nowHP <= 0) Spawn();
             }
         }
@@ -416,6 +416,12 @@ namespace PlayerLogic
                     Debug.Log("Bring up slot UI.");
                 UI.SlotUI.PickUpEvent?.Invoke(this);
             }
+        }
+
+        private void WaitHit()
+        {
+            render.color = Color.white;
+            isDamaged = false;
         }
         #endregion
 

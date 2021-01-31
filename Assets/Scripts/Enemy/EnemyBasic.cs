@@ -19,8 +19,15 @@ namespace EnemyLogic
         protected int health;
         protected bool isAlive;
 
+        public bool freeze;
         Vector3 InitPosition = Vector3.zero;//Shion :Return to this position when you fall into the hole.
         #endregion
+
+        // listen to player event, pause & freeze all enemies
+        public delegate void OnPlayerPause();
+        public static OnPlayerPause FreezeEvent;
+        public delegate void OnPlayerResume();
+        public static OnPlayerResume ResumeEvent;
 
 
         public enum EnemyStates
@@ -43,9 +50,25 @@ namespace EnemyLogic
 
         public void Update()
         {
+            if (freeze) return;
             UpdateState(player);
             CheckAlive();
         }
+
+        private void OnEnable()
+        {
+            FreezeEvent += Freeze;
+            ResumeEvent += Resume;
+        }
+
+        private void OnDisable()
+        {
+            FreezeEvent -= Freeze;
+            ResumeEvent -= Resume;
+        }
+
+        protected void Freeze() { freeze = true; }
+        protected void Resume() { freeze = false; }
 
         /// <summary>
         /// Purpose: Updates the states of the enemy

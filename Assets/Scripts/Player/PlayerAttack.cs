@@ -80,7 +80,8 @@ namespace PlayerLogic
             if (ShootColllDownCounter >= 0)
             {
                 ShootColllDownCounter -= Time.fixedDeltaTime;
-                Debug.Log(ShootColllDownCounter);
+                if (debug)
+                    Debug.Log(ShootColllDownCounter);
             }
 
             foreach (var data in ListShoot)

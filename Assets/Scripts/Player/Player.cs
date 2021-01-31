@@ -16,12 +16,18 @@ namespace PlayerLogic
     {
         public static int ToFacing(this PlayerDirection dir)
         {
-            return dir switch
+            //return dir switch
+            //{
+            //    PlayerDirection.Left => -1,
+            //    PlayerDirection.Right => 1,
+            //    _ => 0,
+            //};
+            switch (dir)
             {
-                PlayerDirection.Left => -1,
-                PlayerDirection.Right => 1,
-                _ => 0,
-            };
+                case PlayerDirection.Left: return -1;
+                case PlayerDirection.Right: return 1;
+                default: return 0;
+            }
         }
     }
     #endregion
@@ -37,7 +43,13 @@ namespace PlayerLogic
         [Min(0)]
         public float jumpForce = 200f;
 
+        // Freeze when player adjust key slots on UI
+        public bool freeze;
         public bool debug = true;
+
+        [Min(0)]
+        public int MaxSlots = 1;
+        public int SlotCount { get; private set; }
 
         //Shion--------------------------
         public int InitHP = 3;//InitialHP
@@ -82,6 +94,7 @@ namespace PlayerLogic
         private Rigidbody2D rb;
         private SpriteRenderer render;
         private PlayerSpawn spawn;
+        public InputListener Input { get; private set; }
 
         //shion-------------------------
         public bool isDamaged { get; private set; }
@@ -102,9 +115,12 @@ namespace PlayerLogic
 
             bulletManager = GetComponent<PlayerAttack>();
             spawn = GetComponent<PlayerSpawn>();
+            Input = GetComponent<InputListener>();
 
             nowHP = InitHP;
             rushHitCheck = GetComponentInChildren<RushHitCheck>();
+
+            UpdateSlotCount();
         }
 
         private void Start()
@@ -114,6 +130,8 @@ namespace PlayerLogic
 
         private void Update()
         {
+            if (freeze) return;
+
             if (JumpKeyPressed) Jump();
 
             // pressing the Cling key.
@@ -208,14 +226,6 @@ namespace PlayerLogic
                 vel.y = 0;
                 rb.velocity = vel;
 
-                // cancel cling
-                if (rb.isKinematic)
-                {
-                    rb.isKinematic = false;
-                    ClingKeyPressed = false;
-                    // set speed to back
-                    Speed = -moveSpeed;
-                }
                 // jump
                 rb.AddForce(Vector2.up * jumpForce);
                 jumpCount++;
@@ -283,12 +293,6 @@ namespace PlayerLogic
             }
         }
 
-        //public void SaveSpawnPoint()
-        //{
-        //    Debug.Log("Player save spawn point at: " + spawn.spawnPoint);
-        //    spawn.spawnPoint = transform.position;
-        //}
-
         public void SaveSpawnPoint()
         {
             Debug.Log("Player save spawn point at: " + spawn.spawnPoint);
@@ -334,11 +338,6 @@ namespace PlayerLogic
             }
         }
 
-        void waitHit() {
-            render.color = Color.white;
-            isDamaged = false;
-        }
-
         private void OnCollisionExit2D(Collision2D collision)
         {
             if (collision.gameObject.CompareTag("Block"))
@@ -352,8 +351,6 @@ namespace PlayerLogic
             }
         }
 
-    
-
         //アイテム関連でトリガーを扱っているためここに書いています。
         //I'm writing this here because I'm dealing with triggers in an item-related way.
         //Author Shion
@@ -362,9 +359,15 @@ namespace PlayerLogic
             var obj = trigger.gameObject;
             if (obj.CompareTag("Item"))
             {
-                var ITEMS = obj.GetComponent<ItemObjects>();
-                if (ITEMS == null) return;
-                switch (ITEMS.GetItemType())
+                var item = obj.GetComponent<ItemObjects>();
+                if (item == null) return;
+                if (SlotCount >= MaxSlots && item.GetItemType() != ItemType.Item_SlotAdd)
+                {
+                    Debug.Log("Player slots are full. Can not pick up new item.");
+                    return;
+                }
+
+                switch (item.GetItemType())
                 {
                     case ItemType.Item_Jump:
                         enableJump = true;
@@ -383,9 +386,20 @@ namespace PlayerLogic
                         break;
                     case ItemType.Item_SlotAdd:
                         Debug.Log("Player add slot.");
+                        MaxSlots++;
                         break;
                 }
                 Destroy(obj);
+                UpdateSlotCount();
+
+                if (debug)
+                    Debug.Log("Player & NPC are freezed when adjust key slots.");
+                Freeze();
+                EnemyBasic.FreezeEvent?.Invoke();
+
+                if (debug)
+                    Debug.Log("Bring up slot UI.");
+                UI.SlotUI.PickUpEvent?.Invoke(this);
             }
         }
         #endregion
@@ -416,6 +430,29 @@ namespace PlayerLogic
                 if (offset <= -.5f && rb.velocity.y <= 0) return true;
             }
             return false;
+        }
+
+        public void Freeze()
+        {
+            freeze = true;
+            Input.freeze = true;
+        }
+
+        public void Resume()
+        {
+            freeze = false;
+            Input.freeze = false;
+        }
+
+        public void UpdateSlotCount()
+        {
+            SlotCount = 0;
+            if (enableRightMove) SlotCount ++;
+            if (enableLeftMove) SlotCount++;
+            if (enableJump || enableDoubleJump) SlotCount++;
+            if (enableRush) SlotCount++;
+            if (enableShoot) SlotCount++;
+            if (enableCling) SlotCount++;
         }
         #endregion
     }

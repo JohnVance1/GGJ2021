@@ -8,13 +8,9 @@ public class PlayerRush : MonoBehaviour
 
     private Rigidbody2D rigidbody2D;
 
-    public float AfterimageDestroyTime = 0.5f;
+    public float RushSpeed = 0.01f;
 
-    public float MaxRushTime = 2.0f;
-
-    public float RushSpeed = 1.0f;
-
-    public float CreateAfterimageWaitTime = 1.0f;
+    public float CreateAfterimageWaitTime = 0.1f;
 
     public int CreateAfterimageCount = 5;
 
@@ -74,7 +70,7 @@ public class PlayerRush : MonoBehaviour
                 spriteRen.color = color;
             }
 
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(CreateAfterimageWaitTime);
 
             if (CreateCount > CreateAfterimageCount)
             {

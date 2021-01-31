@@ -83,6 +83,13 @@ namespace PlayerLogic
         private SpriteRenderer render;
         private PlayerSpawn spawn;
 
+        // sound
+        private AudioSource audioSource;
+        public AudioClip BGM;
+        public AudioClip hit;
+        public AudioClip keyCollect;
+
+
         //shion-------------------------
         public bool isDamaged { get; private set; }
         //------------------------------
@@ -96,6 +103,8 @@ namespace PlayerLogic
 
             Facing = 1;
             Speed = 0;
+
+            audioSource = GetComponent<AudioSource>();
 
             rb = GetComponent<Rigidbody2D>();
             render = GetComponent<SpriteRenderer>();
@@ -111,6 +120,7 @@ namespace PlayerLogic
         private void Start()
         {
             spawn.spawnPoint = transform.position;
+            audioSource.PlayOneShot(BGM);
         }
 
         private void FixedUpdate()
@@ -332,6 +342,7 @@ namespace PlayerLogic
             } else if (collision.gameObject.CompareTag("Enemy")) {
                 if (debug) Debug.Log("Player hit Enemy.");
                 nowHP--;
+                audioSource.PlayOneShot(hit);
                 isDamaged = true;
                 Color c = Color.white;
                 c.a = 0.5f;
@@ -393,6 +404,18 @@ namespace PlayerLogic
                         break;
                 }
                 Destroy(obj);
+
+                UpdateSlotCount();
+                audioSource.PlayOneShot(keyCollect);
+
+                if (debug)
+                    Debug.Log("Player & NPC are freezed when adjust key slots.");
+                //Freeze();
+                //EnemyBasic.FreezeEvent?.Invoke();
+
+                if (debug)
+                    Debug.Log("Bring up slot UI.");
+                UI.SlotUI.PickUpEvent?.Invoke(this);
             }
         }
         #endregion

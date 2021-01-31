@@ -682,6 +682,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8350042712346294875, guid: 693115183c0474eb9b73b809e4ee91be, type: 3}
+      propertyPath: RushTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8350042712346294875, guid: 693115183c0474eb9b73b809e4ee91be, type: 3}
       propertyPath: ClingSpeed
       value: 0.1
       objectReference: {fileID: 0}
@@ -791,60 +795,33 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 693115183c0474eb9b73b809e4ee91be, type: 3}
---- !u!1001 &1799178985
-PrefabInstance:
+--- !u!1 &1815097127
+GameObject:
   m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 581007939}
-    m_Modifications:
-    - target: {fileID: 7886030239175885138, guid: 7f34026c7ecfe5c4194eb4422af05d6f, type: 3}
-      propertyPath: m_RootOrder
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7886030239175885138, guid: 7f34026c7ecfe5c4194eb4422af05d6f, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7886030239175885138, guid: 7f34026c7ecfe5c4194eb4422af05d6f, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7886030239175885138, guid: 7f34026c7ecfe5c4194eb4422af05d6f, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7886030239175885138, guid: 7f34026c7ecfe5c4194eb4422af05d6f, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7886030239175885138, guid: 7f34026c7ecfe5c4194eb4422af05d6f, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7886030239175885138, guid: 7f34026c7ecfe5c4194eb4422af05d6f, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7886030239175885138, guid: 7f34026c7ecfe5c4194eb4422af05d6f, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7886030239175885138, guid: 7f34026c7ecfe5c4194eb4422af05d6f, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7886030239175885138, guid: 7f34026c7ecfe5c4194eb4422af05d6f, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7886030239175885138, guid: 7f34026c7ecfe5c4194eb4422af05d6f, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7886030239175885139, guid: 7f34026c7ecfe5c4194eb4422af05d6f, type: 3}
-      propertyPath: m_Name
-      value: ClingArea
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 7f34026c7ecfe5c4194eb4422af05d6f, type: 3}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1815097128}
+  m_Layer: 0
+  m_Name: ClingArea (Missing Prefab)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1815097128
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1815097127}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 581007939}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

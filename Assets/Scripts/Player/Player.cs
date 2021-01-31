@@ -126,7 +126,7 @@ namespace PlayerLogic
             //audioSource.PlayOneShot(BGM);
 
             UpdateSlotCount();
-            MaxSlots = SlotCount + 1;
+            MaxSlots = SlotCount + 2;
         }
 
         private void FixedUpdate()

@@ -7,9 +7,9 @@ public class SceneSwitching : MonoBehaviour
 {
     public void GameScene()
     {
-        Debug.Log("mapData");
+        Debug.Log("MapFinal");
         //Scene should be whatever the game is played in
-        SceneManager.LoadScene("mapData");
+        SceneManager.LoadScene("MapFinal");
     }
 
     public void ExitGame()

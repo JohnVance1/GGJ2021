@@ -39,6 +39,8 @@ namespace PlayerLogic
 
         public bool debug = true;
 
+        private int SlotCount = 1;
+
         //Shion--------------------------
         public int InitHP = 3;//InitialHP
         int nowHP = 0;
@@ -454,6 +456,17 @@ namespace PlayerLogic
                 if (offset <= -.5f && rb.velocity.y <= 0) return true;
             }
             return false;
+        }
+
+        public void UpdateSlotCount()
+        {
+            SlotCount = 0;
+            if (enableRightMove) SlotCount++;
+            if (enableLeftMove) SlotCount++;
+            if (enableJump || enableDoubleJump) SlotCount++;
+            if (enableRush) SlotCount++;
+            if (enableShoot) SlotCount++;
+            if (enableCling) SlotCount++;
         }
         #endregion
     }

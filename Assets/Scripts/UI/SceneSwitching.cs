@@ -7,14 +7,13 @@ public class SceneSwitching : MonoBehaviour
 {
     public void GameScene()
     {
-        Debug.Log("switching scene");
+        Debug.Log("mapData");
         //Scene should be whatever the game is played in
-        //SceneManager.LoadScene("GoalScene");
+        SceneManager.LoadScene("mapData");
     }
 
     public void ExitGame()
     {
-        Debug.Log("exit game");
-        //Application.Quit();
+        Application.Quit();
     }
 }

@@ -36,9 +36,6 @@ namespace PlayerLogic
         public float moveSpeed = .1f;
         [Min(0)]
         public float jumpForce = 200f;
-        [Min(0)]
-        public int MaxSlots = 1;
-        public int SlotCount { get; private set; }
 
         public bool debug = true;
 
@@ -47,6 +44,9 @@ namespace PlayerLogic
         int nowHP = 0;
 
         //-------------------------------
+
+        public int MaxSlots { get; private set; }
+        public int SlotCount { get; private set; }
         #endregion
 
 
@@ -124,14 +124,14 @@ namespace PlayerLogic
         {
             spawn.spawnPoint = transform.position;
             //audioSource.PlayOneShot(BGM);
+
+            UpdateSlotCount();
+            MaxSlots = SlotCount + 1;
         }
 
         private void FixedUpdate()
         {
-
             if (JumpKeyPressed) Jump();
-
-            Debug.Log(MoveIsBlocked);
 
             // pressing the Cling key.
             if (ClingKeyPressed) { Cling(); return; }
@@ -296,9 +296,7 @@ namespace PlayerLogic
                 jumpCount = 0;
 
                 //rb stop
-                Vector2 _vel = rb.velocity;
-                _vel.y = 0;
-                rb.velocity = _vel;
+                rb.velocity = Vector2.zero;
             }
         }
 
@@ -415,6 +413,11 @@ namespace PlayerLogic
                 if (debug)
                     Debug.Log("Bring up slot UI.");
                 UI.SlotUI.PickUpEvent?.Invoke(this);
+            }
+
+            if (obj.CompareTag("CheckPoint"))
+            {
+                SaveSpawnPoint();
             }
         }
 
